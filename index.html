@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="NEXITA: platform belajar tata surya interaktif dwibahasa dengan planet 3D, simulasi orbit, kuis, dan minigame.">
+<title>NEXITA: Jelajah Tata Surya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="ld">
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="glow" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas><div id="cr" aria-hidden="true"></div><div id="cd" aria-hidden="true"></div>
+<div id="wp" aria-hidden="true"></div>
+<div id="ws" role="dialog" aria-modal="true" aria-label="Selamat datang di NEXITA">
+  <canvas id="wsc" aria-hidden="true"></canvas>
+  <div class="wlw" aria-hidden="true"><div class="wl" id="wl"><span class="wlg" id="wlg"></span><span class="wtx" id="wtx"></span></div></div>
+  <div class="wc" id="wc" hidden>
+    <h2 class="wi">Selamat datang, <span id="wnm2">Penjelajah</span>.</h2>
+    <p class="wi">NEXITA mengajakmu menjelajahi tata surya: planet 3D yang bisa di-zoom, simulasi orbit, kuis, dan minigame, dalam dua bahasa.</p>
+    <div class="wbp wi"><div><span>Misi</span><b>Jelajah Tata Surya</b></div><div><span>Tujuan</span><b>8 planet</b></div><div><span>Kru</span><b id="wcrew"></b></div></div>
+    <div class="wi"><button class="btn" id="wgo">Mulai misi</button></div>
+    <p class="wi wtip">Tips: seret planet untuk memutarnya, scroll atau cubit untuk zoom.</p>
+  </div>
+  <div id="wcd" aria-hidden="true"></div>
+  <button class="wsk" id="wsk">Lewati intro</button>
+</div>
+<script>setTimeout(function(){var w=document.getElementById("ws");if(w&&!window.__nx){w.remove();document.body.classList.remove("ld","nxi")}},9000)</script>
+
+<header class="nav" id="nav">
+  <div class="pill" id="pill">
+    <a class="brand" href="#beranda" aria-label="NEXITA, ke Beranda"><svg class="nxl" viewBox="0 0 80 80" width="1.25em" height="1.25em" aria-hidden="true"><circle cx="40" cy="40" r="30" style="fill:rgba(255,255,255,.05);stroke:rgba(255,255,255,.22);stroke-width:1.5"/><g class="nxo"><ellipse cx="40" cy="40" rx="37" ry="13" transform="rotate(-24 40 40)" style="fill:none;stroke:var(--ac);stroke-width:2;stroke-linecap:round;stroke-dasharray:150 90"/></g><path class="nxp" d="M25 55V25L55 55V25" style="fill:none;stroke:#f3efe8;stroke-width:4;stroke-linecap:round;stroke-linejoin:round"/><circle class="nxd" cx="25" cy="55" r="4" style="fill:var(--ac)"/><circle class="nxd" cx="25" cy="25" r="4" style="fill:var(--ac)"/><circle class="nxd" cx="55" cy="55" r="4" style="fill:var(--ac)"/><circle class="nxd" cx="55" cy="25" r="4" style="fill:var(--ac)"/></svg>NEXITA</a>
+    <span class="sep" aria-hidden="true"></span>
+    <nav class="links" aria-label="Halaman"><span class="ind" id="ind" aria-hidden="true"></span><a href="#beranda" data-p="beranda">Beranda</a><a href="#belajar" data-p="belajar">Belajar</a><a href="#orbit" data-p="orbit">Orbit</a><a href="#banding" data-p="banding">Banding</a><a href="#game" data-p="game">Game</a><a href="#peringkat" data-p="peringkat">Peringkat</a></nav>
+    <div class="mo"><button class="gear" id="mb" aria-expanded="false" aria-controls="mm">Lainnya<svg class="chv" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="mm" id="mm"><a href="#misi" data-p="misi">Misi</a><a href="#kuis" data-p="kuis">Kuis</a><a href="#bahasa" data-p="bahasa">Bahasa</a><a href="#komando" data-p="komando">Komando</a><a href="#lab" data-p="lab">Lab</a><a href="#tentang" data-p="tentang">Tentang</a></div></div>
+    <span class="sep" aria-hidden="true"></span>
+    <div class="acts">
+      <div class="cnt" id="cnt" hidden></div>
+      <a class="xpc" id="xpc" href="#profil" aria-label="Level dan XP">Lv 1</a>
+      <a class="pcta" href="#belajar">Mulai belajar<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="av" id="av" href="#profil" aria-label="Profil dan progres">?</a>
+      <button class="gear" id="gb" aria-label="Pengaturan aksesibilitas" aria-expanded="false" aria-controls="gp">Aa</button>
+      <button class="burger" id="bg" aria-label="Buka menu" aria-expanded="false" aria-controls="mp"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+  <div class="mp" id="mp"></div>
+  <div class="set" id="gp" hidden></div>
+</header>
+
+<main class="stage" id="stage" data-page="beranda">
+  <div id="zl" aria-hidden="true"></div>
+  <section class="l">
+    <p class="kicker">Belajar tata surya dalam dua bahasa, untuk semua pelajar.</p>
+    <h1 id="nm"></h1>
+    <p id="ds"></p>
+    <div class="cta"><button class="btn" id="nx">Planet berikutnya</button><button class="ghost" id="pv">Sebelumnya</button><a class="ghost" href="#orbit">Lihat orbit</a><a class="ghost" href="#banding">Bandingkan</a></div>
+  </section>
+  <div class="mid" id="mid">
+    <div class="pl" id="pl"><div class="orbit"></div><i class="ring"></i><div class="sph" id="sph"></div><i class="ring f"></i></div>
+  </div>
+  <aside class="r">
+    <dl class="stats" id="stats"></dl>
+    <div class="tabs" role="tablist" aria-label="Fitur">
+      <button role="tab" data-tab="info" aria-selected="true">Jelajah</button>
+      <button role="tab" data-tab="berat" aria-selected="false">Berat badan</button>
+      <button role="tab" data-tab="sinyal" aria-selected="false">Kirim sinyal</button>
+      <button role="tab" data-tab="fakta" aria-selected="false">Fakta</button>
+    </div>
+    <div class="card" id="card" aria-live="polite"></div>
+  </aside>
+</main>
+
+<main class="pg" data-page="belajar" hidden>
+  <h2 class="pt">Belajar tata surya</h2>
+  <p class="ps">Enam materi singkat. Baca penjelasannya, lalu jawab pertanyaan pemahaman untuk menandai materi sebagai selesai.</p>
+  <div class="prog"><div class="bar"><i id="pb"></i></div><span id="pn"></span></div>
+  <div class="lrn"><div class="lst" id="ll"></div><article class="card les" id="ls" aria-live="polite"></article></div>
+</main>
+
+<main class="pg" data-page="orbit" hidden>
+  <h2 class="pt">Orbit mengitari Matahari</h2>
+  <p class="ps">Jarak dan ukuran tidak sesuai skala sebenarnya supaya semuanya muat. Klik sebuah planet untuk melihat detail orbitnya.</p>
+  <div class="cv"><canvas id="oc" role="img" aria-label="Visualisasi planet-planet mengorbit Matahari"></canvas><div class="yrs" id="oy"></div></div>
+  <div class="ctl">
+    <button class="ghost" id="pp">Jeda</button>
+    <label>Kecepatan <input id="sp" type="range" min="-1.3" max="1.3" step=".05" value="-.6"> <span id="sv"></span></label>
+    <label><input type="checkbox" id="lb" checked> Nama planet</label>
+  </div>
+  <div class="chips" id="ch"></div>
+  <div class="card op" id="op"></div>
+</main>
+
+<main class="pg" data-page="misi" hidden>
+  <h2 class="pt">Jejak manusia di luar angkasa</h2>
+  <p class="ps">Dari satelit pertama sampai kembali mengorbit Bulan, beberapa tonggak yang mengubah cara kita memandang langit.</p>
+  <ol class="tl">
+    <li><b>1957</b><strong>Sputnik 1</strong><p>Satelit buatan pertama, diluncurkan Uni Soviet dan membuka era antariksa.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi Sputnik 1: bola logam dengan empat antena"><circle class="w" cx="128" cy="70" r="26"/><path class="a" d="M104 62L18 26M104 68L10 62M104 74L10 80M104 80L18 114"/><circle class="f" cx="119" cy="61" r="3"/></svg><figcaption>Ilustrasi Sputnik 1: bola logam dengan empat antena</figcaption></figure></details></li>
+    <li><b>1961</b><strong>Yuri Gagarin</strong><p>Manusia pertama yang mengorbit Bumi dan melihat planet kita dari luar.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi helm kosmonaut bertuliskan СССР, seperti yang dipakai Gagarin"><path class="w" d="M68 122V72a52 52 0 0 1 104 0v50z"/><rect class="m" x="86" y="66" width="68" height="36" rx="15"/><text x="120" y="48" text-anchor="middle">СССР</text><rect class="w" x="60" y="118" width="120" height="11" rx="4"/></svg><figcaption>Ilustrasi helm kosmonaut bertuliskan СССР, seperti yang dipakai Gagarin</figcaption></figure></details></li>
+    <li><b>1969</b><strong>Apollo 11</strong><p>Neil Armstrong dan Buzz Aldrin menjadi manusia pertama yang menjejak Bulan.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi modul pendarat Bulan Apollo 11 dengan bendera"><circle class="w" cx="40" cy="30" r="12"/><path class="a" style="opacity:.5" d="M0 126H240"/><path class="w" d="M96 56h48l8 26H88z"/><rect class="w" x="92" y="82" width="56" height="16"/><path class="a" d="M94 98L70 124M146 98L170 124M120 98V124M60 124h20M160 124h20"/><path class="a" d="M208 126V84"/><path class="f" d="M208 84h22v14h-22z"/></svg><figcaption>Ilustrasi modul pendarat Bulan Apollo 11 dengan bendera</figcaption></figure></details></li>
+    <li><b>1977</b><strong>Voyager 1 dan 2</strong><p>Dua penjelajah yang melewati planet-planet luar, dan kini berada di antara bintang.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi wahana Voyager dengan antena parabola besar"><circle class="w" cx="120" cy="52" r="40"/><circle class="f" cx="120" cy="52" r="4"/><path class="a" d="M120 52L92 26M120 52L148 26M120 52V94"/><rect class="m" x="100" y="94" width="40" height="22" rx="3"/><path class="a" d="M100 105H20M20 96v18M140 105H222"/><circle class="f" cx="222" cy="105" r="3"/></svg><figcaption>Ilustrasi wahana Voyager dengan antena parabola besar</figcaption></figure></details></li>
+    <li><b>1990</b><strong>Teleskop Hubble</strong><p>Mata di orbit yang memotret galaksi jauh tanpa gangguan atmosfer.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi Teleskop Luar Angkasa Hubble dengan panel surya"><rect class="m" x="102" y="10" width="24" height="38"/><rect class="m" x="102" y="92" width="24" height="38"/><path class="a" style="opacity:.5" d="M114 10v38M102 29h24M114 92v38M102 111h24"/><rect class="w" x="54" y="50" width="116" height="40" rx="7"/><rect class="m" x="170" y="55" width="24" height="30" rx="4"/><path class="a" d="M54 50L38 34"/></svg><figcaption>Ilustrasi Teleskop Luar Angkasa Hubble dengan panel surya</figcaption></figure></details></li>
+    <li><b>1998</b><strong>Stasiun Luar Angkasa Internasional</strong><p>Modul pertamanya diluncurkan, awal dari rumah manusia di orbit.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi ISS dengan rangka dan empat panel surya"><path class="a" d="M24 70H216"/><rect class="m" x="20" y="20" width="32" height="42"/><rect class="m" x="20" y="78" width="32" height="42"/><rect class="m" x="188" y="20" width="32" height="42"/><rect class="m" x="188" y="78" width="32" height="42"/><rect class="w" x="94" y="58" width="52" height="24" rx="5"/><rect class="w" x="108" y="38" width="24" height="20" rx="3"/><rect class="w" x="108" y="82" width="24" height="20" rx="3"/></svg><figcaption>Ilustrasi ISS dengan rangka dan empat panel surya</figcaption></figure></details></li>
+    <li><b>2012</b><strong>Curiosity</strong><p>Penjelajah seukuran mobil mendarat di Mars untuk mencari jejak kehidupan lampau.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi penjelajah Mars Curiosity dengan enam roda"><path class="a" style="opacity:.5" d="M0 120H240"/><rect class="w" x="78" y="50" width="86" height="28" rx="4"/><path class="a" d="M148 50V26"/><rect class="m" x="138" y="16" width="24" height="11" rx="2"/><path class="a" d="M78 64L48 82M72 92L120 80L168 92"/><circle class="m" cx="72" cy="104" r="13"/><circle class="m" cx="120" cy="104" r="13"/><circle class="m" cx="168" cy="104" r="13"/></svg><figcaption>Ilustrasi penjelajah Mars Curiosity dengan enam roda</figcaption></figure></details></li>
+    <li><b>2021</b><strong>Perseverance dan James Webb</strong><p>Satu mendarat di Mars, satu lagi diluncurkan sebagai teleskop inframerah terbesar di luar angkasa.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi cermin utama heksagonal Teleskop James Webb"><defs><path id="hx" d="M16 0L8 13.9L-8 13.9L-16 0L-8 -13.9L8 -13.9Z"/></defs><use href="#hx" class="w" x="120" y="52"/><use href="#hx" class="w" x="147.7" y="52"/><use href="#hx" class="w" x="92.3" y="52"/><use href="#hx" class="w" x="133.9" y="28"/><use href="#hx" class="w" x="106.1" y="28"/><use href="#hx" class="w" x="133.9" y="76"/><use href="#hx" class="w" x="106.1" y="76"/><path class="a" style="opacity:.6" d="M36 118L120 102L204 118L120 132Z"/></svg><figcaption>Ilustrasi cermin utama heksagonal Teleskop James Webb</figcaption></figure></details></li>
+    <li><b>2022</b><strong>Artemis I</strong><p>Kapsul Orion terbang mengelilingi Bulan tanpa awak, langkah awal menuju kembalinya manusia ke sana.</p><details class="im"><summary>Lihat gambar</summary><figure><svg viewBox="0 0 240 140" role="img" aria-label="Ilustrasi roket SLS dengan kapsul Orion di puncaknya"><rect class="w" x="91" y="52" width="14" height="58" rx="6"/><rect class="w" x="135" y="52" width="14" height="58" rx="6"/><path class="w" d="M120 14L131 40V110H109V40Z"/><path class="m" d="M120 4L128 22H112Z"/><path class="f" style="opacity:.85" d="M110 112Q120 138 130 112Z"/></svg><figcaption>Ilustrasi roket SLS dengan kapsul Orion di puncaknya</figcaption></figure></details></li>
+  </ol>
+</main>
+
+<main class="pg" data-page="kuis" hidden>
+  <h2 class="pt">Seberapa kenal tata suryamu?</h2>
+  <p class="ps">Lima pertanyaan singkat. Jawab, lalu lihat penjelasannya.</p>
+  <div class="card qz" id="qz"></div>
+</main>
+
+<main class="pg" data-page="bahasa" hidden>
+  <h2 class="pt">Bahasa antariksa</h2>
+  <p class="ps">Sains dipelajari di seluruh dunia dengan istilah bahasa Inggris. Kenali 30 istilah penting, dengarkan pengucapannya, lalu berlatih dua arah: Indonesia ke Inggris dan sebaliknya.</p>
+  <div class="sub" id="lgt" role="tablist"><button data-v="kamus" aria-selected="true">Kamus</button><button data-v="frasa" aria-selected="false">Frasa</button><button data-v="latih" aria-selected="false">Latihan</button><button data-v="budaya" aria-selected="false">Budaya</button></div>
+  <div id="lgb"></div>
+</main>
+
+<main class="pg" data-page="komando" hidden>
+  <h2 class="pt">Misi Komando</h2>
+  <p class="ps">Kamu memimpin awak wahana Sinyal-1 yang berasal dari empat negara. Ada lima keputusan. Tidak ada jawaban yang sempurna, tetapi setiap pilihan memengaruhi tim.</p>
+  <div class="mk" id="mk"></div>
+</main>
+
+<main class="pg" data-page="tentang" hidden>
+  <h2 class="pt">Dasar riset NEXITA</h2>
+  <p class="ps">Sub tema Technology: memakai teknologi web untuk membuka akses belajar antariksa yang efisien dan inklusif bagi pelajar Indonesia. Halaman ini menunjukkan dari mana setiap temuan dan data berasal. Angka dalam kurung siku merujuk ke daftar pustaka di bagian bawah.</p>
+  <div class="ab">
+    <article class="card wide"><h3>Pernyataan masalah</h3><p>Indonesia sedang membangun kapasitas riset antariksa, misalnya Observatorium Nasional Timau di Nusa Tenggara Timur dengan teleskop optik berdiameter 3,8 meter [10][11]. Namun kesempatan pelajar untuk benar-benar memahami tata surya masih timpang: literasi sains yang rendah, fasilitas astronomi publik yang terbatas, dan akses internet yang belum merata. NEXITA mencoba menjawabnya dengan teknologi web yang ringan, bisa dibuka siapa saja, dan dirancang inklusif.</p></article>
+    <article class="card"><div><div class="nm2">383</div><h3>Skor sains siswa Indonesia, PISA 2022</h3><p>Terpaut sekitar 102 poin dari rata-rata global. Peringkat naik, tetapi skor turun 13 poin [1][2]. PISA mengukur literasi sains siswa usia 15 tahun secara umum, bukan khusus astronomi.</p><span class="tg tgs">Bukti sedang: ringkasan media atas rilis OECD</span></div></article>
+    <article class="card"><div><div class="nm2">80,66%</div><h3>Penetrasi internet Indonesia, 2025</h3><p>Sekitar 229,4 juta dari 284,4 juta penduduk, sehingga hampir 20% belum terhubung. Survei APJII melibatkan 8.700 responden [3][6].</p><span class="tg tgs">Bukti sedang: media meliput survei APJII</span></div></article>
+    <article class="card"><div><div class="nm2">84,69% vs 69,26%</div><h3>Jawa dibanding Maluku dan Papua</h3><p>Selisih penetrasi internet antarwilayah masih terlihat jelas, sehingga akses belajar daring pun tidak sama [4][5].</p><span class="tg tgs">Bukti sedang: media meliput survei APJII</span></div></article>
+    <article class="card"><div><div class="nm2">2 sesi per hari</div><h3>Kunjungan Observatorium Bosscha</h3><p>Menurut detikEdu, kunjungan dibatasi dua sesi per hari, maksimal 50 orang per sesi (informasi dapat berubah) [7]. Beberapa tugas akhir mahasiswa mencatat fasilitas besar terpusat di segelintir kota seperti Jakarta, Bandung, Surabaya, dan Tenggarong [8][9].</p><span class="tg tgl">Bukti lemah: satu artikel media dan tugas akhir mahasiswa</span></div></article>
+    <article class="card wide"><h3>Yang belum kami temukan</h3><p>Kami tidak menemukan survei nasional tentang seberapa banyak warga Indonesia mengenal konsep tata surya. Karena itu NEXITA tidak mengklaim bahwa "rata-rata warga belum tahu" sesuatu. Kesenjangan pengetahuan ini yang akan kami ukur sendiri lewat uji coba pada rencana riset di bawah.</p></article>
+    <article class="card wide"><h3>Dari temuan ke fitur</h3><div class="mp">
+      <div><b>Literasi sains rendah [1][2]</b><span>Materi belajar terstruktur dengan cek pemahaman, kuis acak, serta XP, streak, dan lencana agar belajar menjadi rutin. Halaman: Belajar, Kuis, Profil.</span></div>
+      <div><b>Internet belum merata, hampir 20% belum terhubung [3][4][5][6]</b><span>Satu halaman ringan, tekstur planet dibuat oleh kode (tanpa mengunduh gambar), Mode hemat tanpa 3D dan efek, dan progres tersimpan di perangkat. Batasan: koneksi tetap dibutuhkan untuk memuat halaman pertama kali, mode luring belum ada.</span></div>
+      <div><b>Fasilitas astronomi publik terbatas [7][8][9]</b><span>Planet 3D yang bisa diputar, simulasi orbit delapan planet, dan minigame sebagai pengalaman antariksa di layar sendiri. Halaman: Beranda, Orbit, Game.</span></div>
+      <div><b>Pengguna beragam latar [4][5]</b><span>Kamus dwibahasa Indonesia-Inggris dengan suara, ukuran teks, kontras tinggi, dan dukungan keyboard. Halaman: Bahasa, tombol Aa.</span></div>
+    </div></article>
+    <article class="card wide"><h3>Metode riset dan keterbatasan</h3><ul>
+      <li>Metode: riset pustaka (desk research) dengan pencarian web pada 21 Oktober 2026. Urutan keandalan: lembaga resmi atau survei nasional, lalu media nasional yang meliput rilis resmi, lalu publikasi mahasiswa. Tingkat bukti ditandai pada tiap temuan.</li>
+      <li>Angka PISA diambil dari ringkasan media atas rilis OECD, dan angka internet dari liputan media atas survei APJII. Untuk angka resmi, rujuk laporan aslinya.</li>
+      <li>Data fasilitas astronomi masih bersifat kualitatif dan belum berupa hitungan nasional.</li>
+      <li>Belum ada data pengguna NEXITA sendiri, sehingga dampak belum terbukti.</li></ul></article>
+    <article class="card wide"><h3>Rencana riset primer (belum dijalankan)</h3><ul>
+      <li>Merekrut 5 sampai 10 pelajar dari lebih dari satu sekolah.</li>
+      <li>Pra-uji: lima soal Kuis sebelum memakai NEXITA.</li>
+      <li>Sesi 20 menit memakai Belajar, Orbit, dan Bahasa, sambil mencatat kendala yang muncul.</li>
+      <li>Pasca-uji: lima soal Kuis berbeda, lalu wawancara singkat. Hasilnya dilaporkan apa adanya, termasuk jika tidak ada peningkatan.</li></ul></article>
+    <article class="card"><h3>Sumber isi pembelajaran</h3><ul>
+      <li>Data planet: NASA Planetary Fact Sheet [12]. Jumlah bulan terus bertambah seiring penemuan baru.</li>
+      <li>Definisi planet dan status Pluto: [13]. Kerja sama ISS: [14].</li>
+      <li>Sebutan bintang tradisi Jawa: [15][16][17][18].</li>
+      <li>Tonggak misi, Hukum Kepler, satuan AU dan tahun cahaya: rujukan umum dari arsip badan antariksa dan buku teks, belum disertai tautan per butir.</li></ul></article>
+    <article class="card"><h3>Aset dan teknologi</h3><ul>
+      <li>Three.js (lisensi MIT) untuk planet 3D, font Gloock dan Schibsted Grotesk dari Google Fonts, dan Web Speech API bawaan peramban.</li>
+      <li>Tekstur planet dibuat oleh kode dan ilustrasi di halaman Misi digambar sendiri. Tidak ada foto atau aset pihak ketiga.</li></ul></article>
+    <article class="card wide"><h3>Daftar pustaka</h3><p style="margin-bottom:.8rem">Diakses 21 Oktober 2026.</p><ol class="rf"><li><a href="https://goodstats.id/article/mengulik-hasil-pisa-2022-indonesia-peringkat-naik-tapi-tren-penurunan-skor-berlanjut-m6XDt" target="_blank" rel="noopener noreferrer">GoodStats. Mengulik Hasil PISA 2022 Indonesia: Peringkat Naik, tapi Tren Penurunan Skor Berlanjut (merangkum rilis OECD).</a></li><li><a href="https://ppg.kemdikbud.go.id/storage/Siaran%20Pers%20697%20-%20Peringkat%20Indonesia%20pada%20PISA%202022%20Naik%205-6%20Posisi%20Dibanding%202018.pdf" target="_blank" rel="noopener noreferrer">Kemendikbudristek. Siaran Pers 697: Peringkat Indonesia pada PISA 2022 Naik 5-6 Posisi Dibanding 2018.</a></li><li><a href="https://inet.detik.com/telecommunication/d-8047759/survei-apjii-pengguna-internet-indonesia-2025-tembus-229-juta-jiwa" target="_blank" rel="noopener noreferrer">detikINET. Survei APJII: Pengguna Internet Indonesia 2025 Tembus 229 Juta Jiwa (sumber primer: survei.apjii.or.id).</a></li><li><a href="https://selular.id/2025/08/apjii-penetrasi-internet-indonesia-capai-8066-di-2025/" target="_blank" rel="noopener noreferrer">Selular.ID. APJII: Penetrasi Internet Indonesia Capai 80,66% di 2025.</a></li><li><a href="https://www.fortuneidn.com/tech/pengguna-internet-ri-tembus-80-persen-media-sosial-jadi-alasan-utama-00-6cmtl-rzv471/amp" target="_blank" rel="noopener noreferrer">Fortune Indonesia. Pengguna Internet RI Tembus 80 Persen, Media Sosial Jadi Alasan Utama.</a></li><li><a href="https://teknologi.bisnis.com/read/20250806/101/1899997/data-apjii-pengguna-internet-di-indonesia-tembus-22943-juta-orang-pada-2025" target="_blank" rel="noopener noreferrer">Bisnis.com. Data APJII: Pengguna Internet di Indonesia Tembus 229,43 Juta Orang pada 2025.</a></li><li><a href="https://www.detik.com/edu/detikpedia/d-6798190/mau-isi-liburan-dengan-wisata-edukasi-bosscha-bisa-jadi-pilihan/amp" target="_blank" rel="noopener noreferrer">detikEdu. Mau Isi Liburan dengan Wisata Edukasi, Bosscha Bisa Jadi Pilihan.</a></li><li><a href="https://repository.ukdw.ac.id/9980/1/61200516_bab1_bab5_daftarpustaka.pdf" target="_blank" rel="noopener noreferrer">Tugas akhir mahasiswa UKDW. Perancangan Planetarium dan Observatorium di Kota Batu (bab 1).</a></li><li><a href="https://dewey.petra.ac.id/digital/get-file/218992" target="_blank" rel="noopener noreferrer">Tugas akhir mahasiswa Universitas Kristen Petra. Kompleks planetarium dan observatorium.</a></li><li><a href="https://inet.detik.com/science/d-6855120/spek-observatorium-timau-ntt-yang-bakal-jadi-teleskop-besar-dunia" target="_blank" rel="noopener noreferrer">detikINET. Spek Observatorium Timau NTT yang Bakal Jadi Teleskop Besar Dunia.</a></li><li><a href="https://www.goodnewsfromindonesia.id/2024/02/05/observatorium-timau-stasiun-pengamat-luar-angkasa-di-ntt-yang-akan-dibuka-2024" target="_blank" rel="noopener noreferrer">Good News from Indonesia. Observatorium Timau, Stasiun Pengamat Luar Angkasa di NTT yang Akan Dibuka 2024.</a></li><li><a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/index.html" target="_blank" rel="noopener noreferrer">NASA NSSDCA. Planetary Fact Sheet (data planet di NEXITA).</a></li><li><a href="https://science.nasa.gov/solar-system/planets/what-is-a-planet" target="_blank" rel="noopener noreferrer">NASA Science. What is a Planet? (definisi IAU 2006, status Pluto).</a></li><li><a href="https://en.wikipedia.org/wiki/International_Space_Station_program" target="_blank" rel="noopener noreferrer">Wikipedia. International Space Station program (kerja sama lima badan antariksa).</a></li><li><a href="https://www.detik.com/jogja/budaya/d-7337799/mengenal-lintang-waluku-rasi-bintang-fenomenal-yang-menjadi-pranata-mangsa" target="_blank" rel="noopener noreferrer">detik.com. Mengenal Lintang Waluku, Rasi Bintang yang Menjadi Pranata Mangsa.</a></li><li><a href="https://www.kompas.tv/saintek/598433/mengenal-gugus-bintang-pleiades-dalam-pandangan-sains-dan-budaya-jawa" target="_blank" rel="noopener noreferrer">Kompas TV. Mengenal Gugus Bintang Pleiades dalam Pandangan Sains dan Budaya Jawa.</a></li><li><a href="https://cosmoquest.org/x/365daysofastronomy/2015/07/26/jul-26th-pleiades-and-javanese-culture" target="_blank" rel="noopener noreferrer">CosmoQuest. Pleiades and Javanese Culture.</a></li><li><a href="https://repository.unmul.ac.id/bitstream/handle/123456789/11588/Modul%20Praktikum%20Pengamatan%20Benda%20Langit.pdf?sequence=1" target="_blank" rel="noopener noreferrer">Universitas Mulawarman. Modul Praktikum Pengamatan Benda Langit (Gubug Penceng).</a></li></ol></article>
+  </div>
+</main>
+
+<main class="pg" data-page="profil" hidden>
+  <h2 class="pt">Profil dan progres</h2>
+  <p class="ps">Akun di sini bersifat lokal: tersimpan di browser perangkat ini, bukan akun daring. Untuk memindahkan progres ke perangkat lain, salin kode progres di bawah.</p>
+  <div id="pfv"></div>
+</main>
+
+<main class="pg" data-page="game" hidden>
+  <h2 class="pt">Sinyal Runner</h2>
+  <p class="ps">Minigame singkat. Gerakkan wahana dengan mouse, jari, atau tombol panah. Kumpulkan sinyal emas, hindari asteroid, lalu ubah skormu menjadi XP.</p>
+  <div class="cv" id="gcv" style="max-width:720px"><canvas id="gc" role="img" aria-label="Area permainan Sinyal Runner"></canvas><div class="gov" id="gov"></div></div>
+</main>
+
+<main class="pg" data-page="banding" hidden>
+  <h2 class="pt">Bandingkan planet</h2>
+  <p class="ps">Pilih dua planet untuk melihat selisih ukuran, gravitasi, jarak, dan lainnya. Bola digambar sesuai skala diameter.</p>
+  <div class="ctl"><label>Planet A <select id="ca"></select></label><label>Planet B <select id="cb"></select></label><button class="ghost" id="cs">Tukar</button></div>
+  <div id="cmp"></div>
+</main>
+
+<main class="pg" data-page="peringkat" hidden>
+  <h2 class="pt">Papan peringkat</h2>
+  <p class="ps">Bandingkan XP, skor Sinyal Runner, dan waktu bertahan terlama. Papan perangkat ini berlaku untuk semua akun lokal. Papan online bersifat bersama dan hanya aktif jika halaman dibuka lewat claude.ai oleh pengguna yang diizinkan.</p>
+  <div class="sub" id="lbt"><button data-v="lokal" aria-selected="true">Perangkat ini</button><button data-v="online" aria-selected="false">Online</button></div>
+  <div class="sub" id="lbk"><button data-k="x" aria-selected="true">XP</button><button data-k="s" aria-selected="false">Skor Runner</button><button data-k="t" aria-selected="false">Bertahan terlama</button></div>
+  <div id="lbv"></div>
+</main>
+
+<main class="pg" data-page="lab" hidden>
+  <h2 class="pt">Lab mini</h2>
+  <p class="ps">Tiga eksperimen kecil: umurmu di planet lain, fase Bulan hari ini, dan misi harian untuk bonus XP.</p>
+  <div class="ab">
+    <article class="card"><h3>Umurmu di planet lain</h3><label class="row2"><span>Tanggal lahir</span><input type="date" id="bd"></label><ul class="kv" id="bo"></ul></article>
+    <article class="card"><h3>Bulan hari ini</h3><div class="ov"><canvas id="moonc" width="120" height="120" role="img" aria-label="Tampilan fase Bulan"></canvas><div id="mt"></div></div></article>
+    <article class="card wide"><h3>Misi harian</h3><div id="dm"></div></article>
+  </div>
+</main>
+
+<div class="hint">Seret untuk memutar, scroll atau cubit untuk zoom, atau tekan ← →</div>
+<div class="pick" id="pick" role="group" aria-label="Pilih planet"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
