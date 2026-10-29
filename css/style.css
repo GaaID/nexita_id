@@ -458,7 +458,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .wh{font-family:var(--serif);font-weight:400;font-size:clamp(2.3rem,7.2vw,5rem);line-height:1.04;letter-spacing:-.015em;margin:0 0 1.2rem}
 .wln{display:block;overflow:hidden;padding-bottom:.12em}
 .wl1,.wl2{display:inline-block;opacity:0}
-.wl1{color:rgba(243,239,232,.5)}.wl2{color:#f3efe8}
+.wl1{color:rgb(243, 239, 232)}.wl2{color:#f3efe8}
 .wp{max-width:30rem;color:var(--dim);margin:0 0 1.6rem;font-size:clamp(.95rem,1.6vw,1.05rem)}
 .wacts{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .wgreet{color:var(--dim);font-size:.9rem}
