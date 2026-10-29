@@ -23,3 +23,9 @@ nexita/
 - Akun, XP, streak, dan progres tersimpan di localStorage browser (bukan di server).
 - Tab "Online" di halaman Peringkat hanya berfungsi di lingkungan claude.ai. Di hosting sendiri, tab ini menampilkan pesan "tidak tersedia". Papan peringkat global membutuhkan backend sendiri (misalnya Firebase atau Supabase).
 - Data planet mengacu pada NASA Planetary Fact Sheet; daftar sumber lengkap ada di halaman Tentang.
+
+## Akun (masuk dan daftar)
+- Daftar dengan nama, email, dan kata sandi (minimal 8 karakter, kombinasi huruf dan angka). Kata sandi di-hash dengan PBKDF2-SHA256 (Web Crypto) dan disimpan di localStorage perangkat, bukan di server.
+- Kode pemulihan ditampilkan sekali saat daftar. Dipakai untuk mengatur ulang kata sandi karena tidak ada pengiriman email.
+- Ada pembatasan percobaan (5 kali gagal, tunggu 30 detik), opsi "Ingat saya" (30 hari), ubah nama, ubah kata sandi, keluar, dan hapus akun.
+- Akun tidak berpindah antarperangkat. Untuk login lintas perangkat dibutuhkan backend sendiri (Firebase Auth, Supabase, dan sejenisnya). Fitur ini butuh https atau localhost (Web Crypto).

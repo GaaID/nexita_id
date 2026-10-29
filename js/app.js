@@ -173,12 +173,12 @@ function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math
 
 /* akun lokal dan progres */
 var PF={a:"guest",l:[{id:"guest",n:"Tamu",c:"#a29e97"}]},PD;
-function emp(){return{l:[],q:{b:0,n:0,c:0,t:0},g:{c:0,t:0},k:{n:0,s:"",a:0},m:{b:0,n:0,o:0,t:0},s:{d:"",n:0,m:0},dq:{d:"",q:0,g:0,m:0,done:0},x:0,b:[]}}
+function emp(){return{l:[],q:{b:0,n:0,c:0,t:0},g:{c:0,t:0},k:{n:0,s:"",a:0},m:{b:0,n:0,o:0,t:0},m2:{b:0,n:0,c:0},s:{d:"",n:0,m:0},dq:{d:"",q:0,g:0,m:0,done:0},x:0,b:[]}}
 function norm(r){var e=emp();if(!r||typeof r!=="object")return e;
   if(Array.isArray(r.l))e.l=r.l.filter(function(x,i,a){return x>=0&&x<6&&x%1===0&&a.indexOf(x)===i});
   if(typeof r.x==="number"&&r.x>=0)e.x=Math.floor(r.x);
   if(Array.isArray(r.b))e.b=r.b.filter(function(x){return typeof x==="string"}).slice(0,40);
-  ["q","g","k","m","s","dq"].forEach(function(k){if(r[k]&&typeof r[k]==="object")for(var x in e[k])if(typeof r[k][x]===typeof e[k][x])e[k][x]=r[k][x]});return e}
+  ["q","g","k","m","m2","s","dq"].forEach(function(k){if(r[k]&&typeof r[k]==="object")for(var x in e[k])if(typeof r[k][x]===typeof e[k][x])e[k][x]=r[k][x]});return e}
 try{var pf0=JSON.parse(localStorage.getItem("sinyal-pf"));if(pf0&&pf0.l&&pf0.l.length&&pf0.a)PF=pf0}catch(e){}
 if(!PF.l.some(function(x){return x.id===PF.a}))PF.a=PF.l[0].id;
 function pact(){return PF.l.filter(function(x){return x.id===PF.a})[0]||PF.l[0]}
@@ -199,7 +199,7 @@ var tq=[],tb=false;
 function toast(m){tq.push(m);if(!tb)tnext()}
 function tnext(){var m=tq.shift();if(!m){tb=false;return}tb=true;var d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);setTimeout(function(){d.remove();tnext()},reduce?1600:2200)}
 function xpchip(){var c=$("xpc");if(c)c.textContent="Lv "+lvl(PD.x)+" · "+PD.x+" XP"}
-var BDG=[["b1","Penjelajah","Selesaikan 1 materi",function(){return PD.l.length>=1}],["b2","Astronom","Selesaikan 6 materi",function(){return PD.l.length>=6}],["b3","Skor sempurna","Raih 5 dari 5 di kuis",function(){return PD.q.b>=5}],["b4","Konsisten","Main kuis 3 kali",function(){return PD.q.n>=3}],["b5","Dwibahasa","10 jawaban benar di latihan bahasa",function(){return PD.g.c>=10}],["b6","Komandan","Selesaikan Misi Komando",function(){return PD.k.n>0}],["b7","Api kecil","Streak 3 hari",function(){return PD.s.m>=3}],["b8","Api besar","Streak 7 hari",function(){return PD.s.m>=7}],["b9","Level 5","Capai level 5",function(){return lvl(PD.x)>=5}],["b10","Penghindar","Bertahan 60 detik di Sinyal Runner",function(){return PD.m.t>=60}],["b11","Kolektor sinyal","Kumpulkan 50 sinyal di Sinyal Runner",function(){return PD.m.o>=50}],["b12","Seribu XP","Kumpulkan 1.000 XP",function(){return PD.x>=1000}]];
+var BDG=[["b1","Penjelajah","Selesaikan 1 materi",function(){return PD.l.length>=1}],["b2","Astronom","Selesaikan 6 materi",function(){return PD.l.length>=6}],["b3","Skor sempurna","Raih 5 dari 5 di kuis",function(){return PD.q.b>=5}],["b4","Konsisten","Main kuis 3 kali",function(){return PD.q.n>=3}],["b5","Dwibahasa","10 jawaban benar di latihan bahasa",function(){return PD.g.c>=10}],["b6","Komandan","Selesaikan Misi Komando",function(){return PD.k.n>0}],["b7","Api kecil","Streak 3 hari",function(){return PD.s.m>=3}],["b8","Api besar","Streak 7 hari",function(){return PD.s.m>=7}],["b9","Level 5","Capai level 5",function(){return lvl(PD.x)>=5}],["b10","Penghindar","Bertahan 60 detik di Sinyal Runner",function(){return PD.m.t>=60}],["b11","Kolektor sinyal","Kumpulkan 50 sinyal di Sinyal Runner",function(){return PD.m.o>=50}],["b12","Seribu XP","Kumpulkan 1.000 XP",function(){return PD.x>=1000}],["b13","Presisi","Combo 10 di Orbit Lock",function(){return PD.m2.c>=10}],["b14","Dua arena","Mainkan Runner dan Orbit Lock",function(){return PD.m.n>0&&PD.m2.n>0}]];
 function badges(){dq();var ch=0;BDG.forEach(function(b){if(PD.b.indexOf(b[0])<0&&b[3]()){PD.b.push(b[0]);ch=1;toast("Lencana baru: "+b[1])}});if(ch)psave()}
 function xp(n,why){if(n<=0)return;var l0=lvl(PD.x);streak();PD.x+=n;var l1=lvl(PD.x);toast("+"+n+" XP"+(why?" · "+why:""));if(l1>l0)toast("Naik level! Level "+l1+": "+ttl(l1));badges();psave();xpchip()}
 function LV(){var l=lvl(PD.x),c=PD.x-(l-1)*150;return'<div class="card lvc"><div><h3>'+ttl(l)+' · Level '+l+'</h3><div class="mt"><span>XP level ini</span><div class="bar"><i style="width:'+Math.round(c/150*100)+'%"></i></div><b>'+c+'/150</b></div><div class="stt"><div><b>'+PD.x+'</b><span>total XP</span></div><div><b>'+curStreak()+'</b><span>streak hari</span></div><div><b>'+PD.s.m+'</b><span>streak terbaik</span></div><div><b>'+PD.m.b+'</b><span>skor Runner</span></div><div><b>'+PD.m.t+'s</b><span>bertahan terlama</span></div></div></div></div>'}
@@ -523,12 +523,12 @@ mk();
 
 /* halaman profil */
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
-function av(){var a=pact(),b=$("av");b.textContent=a.id==="guest"?"?":a.n.charAt(0).toUpperCase();b.style.background=a.c;b.title="Profil dan progres: "+a.n;xpchip();badges()}
+function av(){var a=pact(),b=$("av");b.textContent=a.id==="guest"?"?":a.n.charAt(0).toUpperCase();b.style.background=a.c;b.title="Profil dan progres: "+a.n;xpchip();badges();sgnUI()}
 function pswitch(id){PF.a=id;pload();done=PD.l;psave();av();lprog();lshow();prof()}
 var COLS=["#f6c98f","#6fb6ff","#8fe3e6","#f08a5d","#b8a4ff","#9be28f"],pcol=COLS[0],pmsg="",pdel=false;
 function mergeIn(x){
   var n=norm(x);n.l.forEach(function(i){if(PD.l.indexOf(i)<0)PD.l.push(i)});
-  ["q","g","m"].forEach(function(k){for(var f in PD[k])PD[k][f]=Math.max(PD[k][f],n[k][f])});PD.x=Math.max(PD.x,n.x);n.b.forEach(function(i){if(PD.b.indexOf(i)<0)PD.b.push(i)});var ms=Math.max(PD.s.m,n.s.m);if(n.s.d>PD.s.d)PD.s=n.s;PD.s.m=ms;
+  ["q","g","m","m2"].forEach(function(k){for(var f in PD[k])PD[k][f]=Math.max(PD[k][f],n[k][f])});PD.x=Math.max(PD.x,n.x);n.b.forEach(function(i){if(PD.b.indexOf(i)<0)PD.b.push(i)});var ms=Math.max(PD.s.m,n.s.m);if(n.s.d>PD.s.d)PD.s=n.s;PD.s.m=ms;
   if(n.k.n>PD.k.n)PD.k=n.k;psave();
 }
 function prof(){
@@ -536,22 +536,23 @@ function prof(){
   function row(n,v,t){return'<div class="mt"><span>'+n+'</span><div class="bar"><i style="width:'+Math.round(v*100)+'%"></i></div><b>'+t+'</b></div>'}
   var B=BDG.map(function(b){return[b[1],b[2],PD.b.indexOf(b[0])>-1]});
   $("pfv").innerHTML='<div class="pfg">'+
-   LV()+
+   LV()+acctCard()+
    '<div class="card"><div><h3>Progres '+esc(a.n)+'</h3><div class="ov"><div class="pr" style="--p:'+ov+'"><b>'+ov+'%</b></div><p class="note" style="margin:0">Rata-rata dari materi, kuis, latihan bahasa, dan Misi Komando.</p></div>'+
    row("Materi belajar",nl/6,nl+"/6")+row("Kuis terbaik",bq,PD.q.b+"/5")+row("Latihan bahasa",bg,Math.min(PD.g.c,10)+"/10")+row("Misi Komando",bk,bk+"/1")+
    '<p class="note">Kuis dimainkan '+PD.q.n+' kali. Akurasi latihan bahasa '+acc+'%.'+(PD.k.s?' Gaya kepemimpinan terakhir: '+esc(PD.k.s)+'.':'')+'</p></div></div>'+
    '<div class="card"><div><h3>Lencana</h3><div class="bds">'+B.map(function(x){return'<div class="bd'+(x[2]?" on":"")+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div></div></div>'+
-   '<div class="card"><div><h3>Akun</h3>'+(a.id==="guest"?'<p class="note">Kamu masuk sebagai Tamu. Buat akun agar progres tersimpan atas namamu. Progres tamu akan dibawa.</p>':'')+
+   '<div class="card"><div><h3>Profil di perangkat ini</h3>'+(a.id==="guest"?'<p class="note">Kamu masuk sebagai Tamu. Buat akun agar progres tersimpan atas namamu. Progres tamu akan dibawa.</p>':'')+
    '<div class="ph" style="margin-bottom:1rem">'+PF.l.map(function(x){return'<div class="gi"><div><b>'+esc(x.n)+'</b><span>'+(x.id===PF.a?"Sedang dipakai":x.id==="guest"?"Tanpa akun":"Akun lokal")+'</span></div>'+(x.id===PF.a?'':'<button class="sy" data-u="'+x.id+'">Pakai</button>')+'</div>'}).join("")+'</div>'+
    '<input id="zn" class="srch" maxlength="20" placeholder="Nama untuk akun baru" aria-label="Nama akun baru"><div class="cols" id="zc">'+COLS.map(function(c){return'<button class="sw2" data-c="'+c+'" aria-label="Warna '+c+'" aria-pressed="'+(c===pcol)+'" style="background:'+c+'"></button>'}).join("")+'</div>'+
-   '<div class="nv" style="margin-top:0"><button class="btn" id="zb">Buat akun</button>'+(a.id==="guest"?'':'<button class="ghost" id="zx">Keluar ke Tamu</button><button class="ghost" id="zd">'+(pdel?"Klik lagi untuk menghapus":"Hapus akun ini")+'</button>')+'</div></div></div>'+
+   '<div class="nv" style="margin-top:0"><button class="btn" id="zb">Buat profil lokal</button>'+(a.id==="guest"?'':'<button class="ghost" id="zx">Keluar ke Tamu</button><button class="ghost" id="zd">'+(pdel?"Klik lagi untuk menghapus":"Hapus akun ini")+'</button>')+'</div></div></div>'+
    '<div class="card"><div><h3>Pindahkan progres</h3><p class="note" style="margin:0">Salin kode untuk memulihkan progres di perangkat lain. Memulihkan menggabungkan, bukan menimpa.</p><div class="nv"><button class="ghost" id="zk">Salin kode progres</button><button class="ghost" id="zr">Pulihkan dari kode</button></div><textarea id="zi" aria-label="Kode progres" placeholder="Tempel kode di sini untuk memulihkan"></textarea></div></div>'+
    '</div><p class="note" id="zm" role="status" style="margin-top:1rem">'+pmsg+'</p>';
   pmsg="";
 }
 $("pfv").addEventListener("click",function(e){
   var t=e.target.closest("button");if(!t)return;
-  if(t.dataset.u){pdel=false;pswitch(t.dataset.u);return}
+  if(t.dataset.act){authAct(t.dataset.act);return}
+  if(t.dataset.u){var pu=PF.l.filter(function(x){return x.id===t.dataset.u})[0],cu=authUser();if(pu&&pu.auth&&!(cu&&cu.id===pu.id)){authOpen("masuk",{email:(aload().users.filter(function(x){return x.id===pu.id})[0]||{}).email});return}pdel=false;pswitch(t.dataset.u);return}
   if(t.dataset.c){pcol=t.dataset.c;[].forEach.call($("zc").children,function(x){x.setAttribute("aria-pressed",x===t)});return}
   if(t.id==="zb"){
     var nm=$("zn").value.trim();if(!nm){$("zm").textContent="Isi nama dulu.";return}
@@ -560,8 +561,9 @@ $("pfv").addEventListener("click",function(e){
     if(g&&(g.l.length||g.q.n||g.g.t||g.k.n))PD=g;
     done=PD.l;psave();av();lprog();lshow();pmsg="Akun dibuat"+(was?", progres tamu dibawa ke akun ini.":".");prof();return;
   }
-  if(t.id==="zx"){pdel=false;pswitch("guest");return}
+  if(t.id==="zx"){pdel=false;if(pact().auth)authAct("out");else pswitch("guest");return}
   if(t.id==="zd"){
+    if(pact().auth){authAct("hapus");return}
     if(!pdel){pdel=true;prof();return}
     var gone=PF.a;PF.l=PF.l.filter(function(x){return x.id!==gone});try{localStorage.removeItem("sinyal-d-"+gone)}catch(x){}
     pdel=false;pmsg="Akun dihapus.";pswitch("guest");return;
@@ -583,7 +585,7 @@ var gc=$("gc"),gx=gc.getContext("2d"),GW=600,GH=420,G=null,grun=false,gl=0,gk={l
 function gsize(){var w=Math.max(260,Math.min($("gcv").clientWidth,720)),d=Math.min(devicePixelRatio||1,2);GW=w;GH=innerWidth<700?400:440;gc.width=w*d;gc.height=GH*d;gc.style.width=w+"px";gc.style.height=GH+"px";gx.setTransform(d,0,0,d,0,0)}
 function gnew(){var s=[];for(var i=0;i<80;i++)s.push({x:Math.random()*GW,y:Math.random()*GH,v:.4+Math.random()*1.6});G={x:GW/2,tx:GW/2,o:[],sp:30,f:0,lv:3,inv:0,orb:0,sc:0,s:s}}
 function govset(h){var o=$("gov");o.innerHTML=h;o.hidden=!h}
-function gready(){gsize();gnew();gdraw();govset('<h3>Sinyal Runner</h3><p>Geser mouse atau jari (atau tombol ← →) untuk menggerakkan wahana. Kumpulkan sinyal emas, hindari asteroid. Skor tertinggimu: '+PD.m.b+'. Bertahan terlama: '+PD.m.t+' detik.</p><button class="btn" id="gs">Mulai</button>');$("gs").onclick=gstart}
+function gready(){gsize();gstats();glRender();if(gsel==="orbit"){lkReady();return}gnew();gdraw();govset('<h3>Sinyal Runner</h3><p>Geser mouse atau jari (atau tombol ← →) untuk menggerakkan wahana. Kumpulkan sinyal emas, hindari asteroid. Skor tertinggimu: '+PD.m.b+'. Bertahan terlama: '+PD.m.t+' detik.</p><button class="btn" id="gs">Mulai</button>');$("gs").onclick=gstart}
 function gstart(){gnew();govset("");grun=true;gl=performance.now();gcol=getComputedStyle(root).getPropertyValue("--ac").trim()||"#ffb454";requestAnimationFrame(gloop)}
 function gloop(now){if(!grun)return;var dt=Math.min((now-gl)/16.67,3);gl=now;gstep(dt);gdraw();if(grun)requestAnimationFrame(gloop)}
 function gscore(){G.sc=G.orb*10+Math.floor(G.f/60)*2}
@@ -607,7 +609,7 @@ function gstep(dt){
 }
 function gdraw(){
   var g=G,i,o,k;if(!g)return;
-  gx.clearRect(0,0,GW,GH);gx.fillStyle="#0d0d12";gx.fillRect(0,0,GW,GH);gx.fillStyle="rgba(243,239,232,.6)";
+  gx.clearRect(0,0,GW,GH);var bgr=gx.createLinearGradient(0,0,0,GH);bgr.addColorStop(0,"#13131a");bgr.addColorStop(1,"#0b0b0f");gx.fillStyle=bgr;gx.fillRect(0,0,GW,GH);gx.beginPath();gx.arc(GW*.82,GH*.2,GH*.17,0,6.2832);gx.fillStyle="rgba(255,255,255,.035)";gx.fill();gx.strokeStyle="rgba(255,255,255,.07)";gx.lineWidth=1;gx.stroke();gx.fillStyle="rgba(243,239,232,.6)";
   for(i=0;i<g.s.length;i++)gx.fillRect(g.s[i].x,g.s[i].y,1.4,1.4);
   for(i=0;i<g.o.length;i++){
     o=g.o[i];
@@ -630,17 +632,18 @@ function gend(){
   govset('<h3>Wahana rusak</h3><p>Skor '+pts+(nb?" (rekor baru!)":"")+'. Bertahan '+sec+' detik'+(sec>oldT?' (rekor waktu baru!)':' (rekor '+oldT+' dtk)')+', '+G.orb+' sinyal terkumpul. XP: +'+gain+'.</p><p class="note">Tahukah kamu? '+fact+'</p><button class="btn" id="gs">Main lagi</button>');
   $("gs").onclick=gstart;
   if(gain)xp(gain,"Sinyal Runner");else badges();
+  gstats();glDraw();
 }
 function gpt(e){if(!G)return;var r=gc.getBoundingClientRect();G.tx=(e.clientX-r.left)*(GW/r.width)}
-gc.addEventListener("pointermove",gpt);gc.addEventListener("pointerdown",gpt);
-addEventListener("keydown",function(e){if(cp!=="game")return;var k=e.key;if(k==="ArrowLeft"||k==="a"||k==="A"){gk.l=1;e.preventDefault()}if(k==="ArrowRight"||k==="d"||k==="D"){gk.r=1;e.preventDefault()}});
+gc.addEventListener("pointermove",function(e){if(gsel==="runner")gpt(e)});gc.addEventListener("pointerdown",function(e){if(gsel==="orbit")lkTap();else gpt(e)});
+addEventListener("keydown",function(e){if(cp!=="game")return;var k=e.key;if(gsel==="orbit"){if(lkRun&&(k===" "||k==="Enter")){lkTap();e.preventDefault()}return}if(k==="ArrowLeft"||k==="a"||k==="A"){gk.l=1;e.preventDefault()}if(k==="ArrowRight"||k==="d"||k==="D"){gk.r=1;e.preventDefault()}});
 addEventListener("keyup",function(e){var k=e.key;if(k==="ArrowLeft"||k==="a"||k==="A")gk.l=0;if(k==="ArrowRight"||k==="d"||k==="D")gk.r=0});
 
 /* lab: umur, bulan, misi harian */
 function dq(){
   var q=PD.dq,t=today();
-  if(q.d!==t){PD.dq=q={d:t,q:PD.q.n,g:PD.g.c,m:PD.m.n,done:0};psave()}
-  if(!q.done&&PD.q.n-q.q>=1&&PD.g.c-q.g>=5&&PD.m.n-q.m>=1){q.done=1;psave();xp(40,"Misi harian selesai")}
+  if(q.d!==t){PD.dq=q={d:t,q:PD.q.n,g:PD.g.c,m:PD.m.n+PD.m2.n,done:0};psave()}
+  if(!q.done&&PD.q.n-q.q>=1&&PD.g.c-q.g>=5&&PD.m.n+PD.m2.n-q.m>=1){q.done=1;psave();xp(40,"Misi harian selesai")}
 }
 function ageShow(){
   var v=$("bd").value,o=$("bo");
@@ -660,9 +663,9 @@ function moon(){
   $("mt").innerHTML="<b style='font-family:var(--serif);font-size:1.4rem;font-weight:400'>"+nm+"</b><p class='note' style='margin:.3rem 0 0'>Iluminasi sekitar "+Math.round(ill*100)+"%. Umur Bulan "+num(age,1)+" hari.<br>Bulan baru berikutnya sekitar "+dt(S-age)+", purnama sekitar "+dt(((S/2-age)+S)%S)+". Perkiraan dari rata-rata bulan sinodis; tampilan disederhanakan.</p>";
 }
 function dmRender(){
-  dq();var q=PD.dq,a=PD.q.n-q.q,b=PD.g.c-q.g,c=PD.m.n-q.m;
+  dq();var q=PD.dq,a=PD.q.n-q.q,b=PD.g.c-q.g,c=PD.m.n+PD.m2.n-q.m;
   function it(ok,t){return'<li class="'+(ok?"on":"")+'">'+(ok?"✓ ":"○ ")+t+"</li>"}
-  $("dm").innerHTML='<ul class="dl">'+it(a>=1,"Selesaikan 1 putaran kuis ("+Math.min(a,1)+"/1)")+it(b>=5,"5 jawaban benar di latihan bahasa ("+Math.min(b,5)+"/5)")+it(c>=1,"Main Sinyal Runner 1 kali ("+Math.min(c,1)+"/1)")+'</ul><p class="note">'+(q.done?"Selesai hari ini, bonus 40 XP sudah diterima. Kembali besok.":"Selesaikan ketiganya untuk bonus 40 XP. Direset tiap hari.")+"</p>";
+  $("dm").innerHTML='<ul class="dl">'+it(a>=1,"Selesaikan 1 putaran kuis ("+Math.min(a,1)+"/1)")+it(b>=5,"5 jawaban benar di latihan bahasa ("+Math.min(b,5)+"/5)")+it(c>=1,"Main 1 game di Arena ("+Math.min(c,1)+"/1)")+'</ul><p class="note">'+(q.done?"Selesai hari ini, bonus 40 XP sudah diterima. Kembali besok.":"Selesaikan ketiganya untuk bonus 40 XP. Direset tiap hari.")+"</p>";
 }
 function labShow(){$("bd").max=today();$("bd").oninput=ageShow;ageShow();moon();dmRender()}
 
@@ -688,10 +691,11 @@ function cmpRender(){
 
 /* papan peringkat */
 var lbMode="lokal",lbKey="x";
-function lbRowsLocal(){return PF.l.map(function(a){var d=a.id===PF.a?PD:norm((function(){try{return JSON.parse(localStorage.getItem("sinyal-d-"+a.id))}catch(e){return null}})());return{n:a.n,x:d.x,s:d.m.b,t:d.m.t,me:a.id===PF.a}})}
-function lbHtml(rows){
-  rows.sort(function(a,b){return(+b[lbKey]||0)-(+a[lbKey]||0)});
-  return'<div class="ph">'+rows.slice(0,20).map(function(r,i){var v=(+r[lbKey]||0)+(lbKey==="x"?" XP":lbKey==="t"?" dtk":"");return'<div class="gi'+(r.me?" me":"")+'"><div><b>'+(i+1)+". "+esc(r.n||"?")+(r.me?" (kamu)":"")+"</b></div><b>"+v+"</b></div>"}).join("")+"</div>";
+function lbRowsLocal(){return PF.l.map(function(a){var d=a.id===PF.a?PD:norm((function(){try{return JSON.parse(localStorage.getItem("sinyal-d-"+a.id))}catch(e){return null}})());return{n:a.n,x:d.x,s:d.m.b,t:d.m.t,o:d.m2.b,c:d.m2.c,me:a.id===PF.a}})}
+function lbHtml(rows,key){
+  key=key||lbKey;
+  rows.sort(function(a,b){return(+b[key]||0)-(+a[key]||0)});
+  return'<div class="ph">'+rows.slice(0,20).map(function(r,i){var v=(+r[key]||0)+(key==="x"?" XP":key==="t"?" dtk":key==="c"?"x combo":"");return'<div class="gi'+(r.me?" me":"")+'"><div><b>'+(i+1)+". "+esc(r.n||"?")+(r.me?" (kamu)":"")+"</b></div><b>"+v+"</b></div>"}).join("")+"</div>";
 }
 async function lbOnline(){
   var el=$("lbv"),db=null,user=null;
@@ -701,13 +705,13 @@ async function lbOnline(){
   el.innerHTML='<div class="nv" style="margin-top:0"><button class="btn" id="lbs">Kirim skor saya</button></div><p class="note" id="lbm" role="status"></p><div id="lbl"></div>';
   async function load(){
     try{var q=await db.collection("lb").orderBy(lbKey,"desc").limit(20).get();
-      var rows=q.docs.map(function(d){var x=d.data()||{};return{n:String(x.n||"?").slice(0,20),x:+x.x||0,s:+x.s||0,t:+x.t||0,me:d.id===uid}});
+      var rows=q.docs.map(function(d){var x=d.data()||{};return{n:String(x.n||"?").slice(0,20),x:+x.x||0,s:+x.s||0,t:+x.t||0,o:+x.o||0,c:+x.c||0,me:d.id===uid}});
       $("lbl").innerHTML=rows.length?lbHtml(rows):'<p class="note">Belum ada skor. Jadilah yang pertama.</p>';
     }catch(e){$("lbl").innerHTML='<p class="note">Gagal memuat papan online.</p>'}
   }
   $("lbs").onclick=async function(){
     var a=pact();
-    try{await db.collection("lb").doc(uid).set({n:a.id==="guest"?"Tamu":a.n,x:PD.x,s:PD.m.b,t:PD.m.t,at:Date.now()});$("lbm").textContent="Skor terkirim.";load()}
+    try{await db.collection("lb").doc(uid).set({n:a.id==="guest"?"Tamu":a.n,x:PD.x,s:PD.m.b,t:PD.m.t,o:PD.m2.b,c:PD.m2.c,at:Date.now()});$("lbm").textContent="Skor terkirim.";load()}
     catch(e){$("lbm").textContent=e&&e.code==="not_granted"?"Kamu belum punya izin menulis di papan ini (butuh peran Contributor).":"Gagal mengirim skor."}
   };
   load();
@@ -747,14 +751,13 @@ function quickAccount(nm){
   if(g.l.length||g.q.n||g.g.t||g.k.n||g.x)PD=g;
   done=PD.l;psave();av();lprog();lshow();
 }
+function wAuthUI(){var u=authUser();if(!$("wsg"))return;$("wsg").textContent=u?"Halo, "+u.name:"Masuk";$("wgreet").textContent=u?"Masuk sebagai "+u.email:"atau lanjut sebagai tamu"}
 function wreveal(){
   if(wdone)return;
-  var wc=$("wc"),a=pact();
-  $("wnm2").textContent=a.id==="guest"?"Penjelajah":a.n;
-  $("wcrew").innerHTML=a.id==="guest"?'<input id="wnm" maxlength="20" placeholder="Nama panggilan" aria-label="Nama panggilan (opsional)" autocomplete="off">':esc(a.n)+" · Level "+lvl(PD.x);
-  wc.hidden=false;
-  [].forEach.call(wc.querySelectorAll(".wi"),function(e,i){WA(e,[{opacity:0,transform:"translateY(26px)"},{opacity:1,transform:"none"}],{duration:tm(700),delay:wfast?0:i*110,easing:"cubic-bezier(.2,.8,.2,1)"})});
-  setTimeout(function(){var f=$("wnm")||$("wgo");if(f)f.focus()},wfast?0:850);
+  var wc=$("wc");wc.hidden=false;$("ws").classList.add("won");wAuthUI();
+  [].forEach.call(wc.querySelectorAll(".wl1,.wl2"),function(e,i){WA(e,[{transform:"translateY(105%)",opacity:0,filter:"blur(8px)"},{transform:"translateY(0)",opacity:1,filter:"blur(0px)"}],{duration:tm(950),delay:wfast?0:i*170,easing:"cubic-bezier(.2,.8,.2,1)"})});
+  [].forEach.call(wc.querySelectorAll(".wi"),function(e,i){WA(e,[{opacity:0,transform:"translateY(22px)"},{opacity:1,transform:"none"}],{duration:tm(700),delay:wfast?0:350+i*140,easing:"cubic-bezier(.2,.8,.2,1)"})});
+  setTimeout(function(){var f=$("wgo");if(f)f.focus()},wfast?0:1100);
 }
 function wfin(){
   if(wdone)return;wdone=true;wskip=true;
@@ -770,12 +773,25 @@ function wfin(){
 }
 async function wgo(){
   if(wdone)return;
-  var nm=($("wnm")?$("wnm").value:"").trim(),cd=$("wcd");
-  $("wgo").disabled=true;if(nm)quickAccount(nm);
+  var cd=$("wcd");$("wgo").disabled=true;
   WA($("wc"),[{opacity:1},{opacity:0,transform:"scale(.96)"}],{duration:tm(350)});
   wwt=1;
   if(!wfast){for(var n=3;n>0;n--){if(wdone)return;cd.textContent=n;await WA(cd,[{opacity:0,transform:"scale(1.7)"},{opacity:1,transform:"scale(1)",offset:.35},{opacity:0,transform:"scale(.7)"}],{duration:520,easing:"ease-out"})}}
   wfin();
+}
+function wDrift(){
+  if(reduce||(SET&&SET.lite))return;
+  function r(a,b){return a+Math.random()*(b-a)}
+  [].forEach.call(document.querySelectorAll("#ws .wglow i"),function(el,i){
+    (function step(){
+      if(wdone||!document.body.contains(el))return;
+      var d=r(7000,12000);
+      el.style.transitionDuration=d+"ms";
+      el.style.transform="translate("+r(-20,20).toFixed(1)+"%,"+r(-14,8).toFixed(1)+"%) scale("+r(.88,1.22).toFixed(2)+") rotate("+r(-8,8).toFixed(1)+"deg)";
+      if(i===1)el.style.opacity=r(.45,.95).toFixed(2);
+      setTimeout(step,d*.95);
+    })();
+  });
 }
 async function nxIntro(){
   var ws=$("ws");if(!ws)return;
@@ -784,10 +800,10 @@ async function nxIntro(){
     wfast=reduce||!!(SET&&SET.lite);
     document.body.style.overflow="hidden";
     [].forEach.call(document.querySelectorAll("header,main,.pick,.hint,.zc"),function(e){e.inert=true});
-    wsz();addEventListener("resize",wsz);wrun=true;requestAnimationFrame(wloop);
+    wsz();addEventListener("resize",wsz);wrun=true;requestAnimationFrame(wloop);wDrift();
     $("wsk").onclick=wfin;$("wgo").onclick=wgo;
     $("wc").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="wnm")wgo()});
-    addEventListener("keydown",function(e){if(e.key==="Escape"&&!wdone)wfin()});
+    addEventListener("keydown",function(e){if(e.key==="Escape"&&!wdone&&$("am").hidden)wfin()});
     var wl=$("wl"),lgo=$("wlg"),tx=$("wtx");
     lgo.innerHTML=document.querySelector(".brand svg").outerHTML;
     tx.innerHTML=Array.prototype.map.call("NEXITA",function(c){return'<span class="wch">'+c+"</span>"}).join("");
@@ -833,10 +849,13 @@ if(window.ResizeObserver){var ro=new ResizeObserver(function(){if(document.body.
 var ORD=["beranda","belajar","orbit","banding","game","peringkat","misi","kuis","bahasa","komando","lab","tentang","profil"];
 function trans(a,b){
   if(!a||a===b||reduce||document.body.classList.contains("lite"))return;
-  var el=document.querySelector('[data-page="'+b+'"]'),d=ORD.indexOf(b)>=ORD.indexOf(a)?1:-1,w=$("wp");
-  if(el){el.style.setProperty("--dir",d);el.classList.remove("pin");void el.offsetWidth;el.classList.add("pin")}
-  if(w){w.style.setProperty("--dir",d);w.classList.remove("go");void w.offsetWidth;w.classList.add("go")}
-  wb=1;
+  var el=document.querySelector('[data-page="'+b+'"]'),d=ORD.indexOf(b)>=ORD.indexOf(a)?1:-1,w=$("wp"),items=[];
+  if(w){w.style.transformOrigin=d>0?"left":"right";w.classList.remove("go");void w.offsetWidth;w.classList.add("go")}
+  wb=.25;
+  if(!el||!el.animate)return;
+  if(b==="beranda"){items=[".kicker","#nm","#ds",".cta",".stats",".tabs","#card","#pl",".pick"].map(function(q){return document.querySelector(q)}).filter(Boolean)}
+  else[].forEach.call(el.children,function(c){if(/\b(ab|pfg|ph|gl2|bds|tl|gsel|garena)\b/.test(c.className)&&c.children.length>1)[].push.apply(items,c.children);else items.push(c)});
+  items.slice(0,24).forEach(function(x,i){x.animate([{opacity:0,translate:"0 16px",scale:".985"},{opacity:1,translate:"0 0",scale:"1"}],{duration:560,delay:i*55,easing:"cubic-bezier(.2,.8,.2,1)",fill:"backwards"})});
 }
 
 /* navbar kapsul */
@@ -854,33 +873,325 @@ function navInd(){
   ind.style.opacity=1;ind.style.width=act.offsetWidth+"px";ind.style.transform="translateX("+act.offsetLeft+"px)";
   if(!indInit){indInit=true;void ind.offsetWidth;ind.style.transition=""}
 }
-$("mp").innerHTML='<div class="mpg">'+[].map.call(document.querySelectorAll(".links a[data-p],#mm a[data-p]"),function(a){return'<a href="'+a.getAttribute("href")+'" data-p="'+a.dataset.p+'">'+a.textContent+"</a>"}).join("")+'</div><div class="mpa"><button class="ghost" id="mpa">Aksesibilitas (Aa)</button><a class="ghost" href="#profil">Profil</a></div>';
+$("mp").innerHTML='<div class="mpg">'+[].map.call(document.querySelectorAll(".links a[data-p],#mm a[data-p]"),function(a){return'<a href="'+a.getAttribute("href")+'" data-p="'+a.dataset.p+'">'+a.textContent+"</a>"}).join("")+'</div><div class="mpa"><button class="ghost" id="mps">Masuk</button><button class="ghost" id="mpa">Aksesibilitas (Aa)</button><a class="ghost" href="#profil">Profil</a></div>';
 $("bg").addEventListener("click",function(e){e.stopPropagation();var o=!$("mp").classList.contains("open");navClose();if(o){$("mp").classList.add("open");this.setAttribute("aria-expanded","true");this.setAttribute("aria-label","Tutup menu")}});
 $("mp").addEventListener("click",function(e){if(e.target.closest("a"))navClose()});
 $("mpa").onclick=function(e){e.stopPropagation();navClose();$("gb").click()};
+$("mps").onclick=function(e){e.stopPropagation();navClose();authOpen("masuk")};
 addEventListener("scroll",function(){$("pill").classList.toggle("sc",scrollY>12)},{passive:true});
 addEventListener("resize",function(){if(innerWidth>899)navClose();navInd()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(navInd);
 
+/* arena: orbit lock, pilihan game, leaderboard */
+var TAU=6.283185307,LK=null,lkRun=false,lkT=0,gsel="runner",glMode="lokal",glKey="s",glKeys={runner:[["s","Skor"],["t","Bertahan terlama"]],orbit:[["o","Skor"],["c","Combo"]]};
+function gstats(){
+  var r=gsel==="runner",a=r?[[PD.m.b,"Skor terbaik"],[PD.m.t+" dtk","Bertahan terlama"],[PD.m.n,"Dimainkan"]]:[[PD.m2.b,"Skor terbaik"],[PD.m2.c,"Combo terbaik"],[PD.m2.n,"Dimainkan"]];
+  $("gst").innerHTML=a.map(function(x){return"<div><b>"+x[0]+"</b><span>"+x[1]+"</span></div>"}).join("");
+  $("gbt1").textContent="Terbaik: "+PD.m.b;$("gbt2").textContent="Terbaik: "+PD.m2.b;
+  [].forEach.call($("gsel").children,function(b){b.setAttribute("aria-pressed",b.dataset.g===gsel)});
+}
+function gsetGame(g){grun=false;lkRun=false;gsel=g;glKey=glKeys[g][0][0];gready()}
+$("gsel").addEventListener("click",function(e){var b=e.target.closest(".gc2");if(b&&b.dataset.g!==gsel)gsetGame(b.dataset.g)});
+function glRender(){
+  $("glk").innerHTML=glKeys[gsel].map(function(k){return'<button data-k="'+k[0]+'" aria-selected="'+(k[0]===glKey)+'">'+k[1]+"</button>"}).join("");
+  glDraw();
+}
+function glDraw(){if(glMode==="lokal")$("glv").innerHTML=lbHtml(lbRowsLocal(),glKey);else glOnline()}
+async function glOnline(){
+  var el=$("glv"),db=null,user=null;
+  try{if(window.claude&&claude.use){db=await claude.use("db");user=await claude.use("user")}}catch(e){}
+  if(!db||!user){el.innerHTML='<p class="note">Papan online tidak tersedia di sini. Hanya aktif jika halaman dibuka lewat claude.ai oleh pengguna yang diizinkan.</p>';return}
+  var uid=await user.id();
+  el.innerHTML='<div class="nv" style="margin-top:0"><button class="btn" id="gls">Kirim skor saya</button></div><p class="note" id="glm" role="status"></p><div id="gll"></div>';
+  async function load(){
+    try{var q=await db.collection("lb").orderBy(glKey,"desc").limit(20).get();
+      var rows=q.docs.map(function(d){var x=d.data()||{};return{n:String(x.n||"?").slice(0,20),x:+x.x||0,s:+x.s||0,t:+x.t||0,o:+x.o||0,c:+x.c||0,me:d.id===uid}});
+      $("gll").innerHTML=rows.length?lbHtml(rows,glKey):'<p class="note">Belum ada skor.</p>';
+    }catch(e){$("gll").innerHTML='<p class="note">Gagal memuat papan online.</p>'}
+  }
+  $("gls").onclick=async function(){
+    var a=pact();
+    try{await db.collection("lb").doc(uid).set({n:a.id==="guest"?"Tamu":a.n,x:PD.x,s:PD.m.b,t:PD.m.t,o:PD.m2.b,c:PD.m2.c,at:Date.now()});$("glm").textContent="Skor terkirim.";load()}
+    catch(e){$("glm").textContent=e&&e.code==="not_granted"?"Kamu belum punya izin menulis (butuh peran Contributor).":"Gagal mengirim skor."}
+  };
+  load();
+}
+$("glt").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;glMode=b.dataset.v;[].forEach.call($("glt").children,function(x){x.setAttribute("aria-selected",x===b)});glDraw()});
+$("glk").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;glKey=b.dataset.k;[].forEach.call($("glk").children,function(x){x.setAttribute("aria-selected",x===b)});glDraw()});
+
+function lkAng(d){return(((d+Math.PI)%TAU)+TAU)%TAU-Math.PI}
+function lkInR(){return Math.abs(lkAng(LK.a-LK.ta))<=LK.tw}
+function lkAhead(){return LK.a+LK.dir*(1.4+Math.random()*2.4)}
+function lkNew(){LK={a:Math.random()*TAU,dir:1,spd:1.5,tw:.55,ta:0,sc:0,combo:0,best:0,lv:3,hits:0,fl:0,tr:[],pu:[],inr:false,age:0};LK.ta=lkAhead()}
+function lkReady(){
+  gcol=getComputedStyle(root).getPropertyValue("--ac").trim()||"#ffb454";LK=null;lkDraw();
+  govset('<h3>Orbit Lock</h3><p>Ketuk layar atau tekan Spasi tepat saat satelit melewati busur target. Target makin sempit dan satelit makin cepat. Kamu punya tiga kesempatan. Skor tertinggimu: '+PD.m2.b+'. Combo terbaik: '+PD.m2.c+'.</p><button class="btn" id="gs">Mulai</button>');
+  $("gs").onclick=lkStart;
+}
+function lkStart(){lkNew();govset("");lkRun=true;lkT=performance.now();gcol=getComputedStyle(root).getPropertyValue("--ac").trim()||"#ffb454";requestAnimationFrame(lkLoop)}
+function lkLoop(now){if(!lkRun)return;var dt=Math.min((now-lkT)/1000,.05);lkT=now;lkStep(dt);lkDraw();if(lkRun)requestAnimationFrame(lkLoop)}
+function lkMiss(){LK.combo=0;LK.lv--;LK.fl=1;LK.inr=false;if(LK.lv<=0){lkEnd();return}LK.ta=lkAhead()}
+function lkStep(dt){
+  var g=LK,cx=GW/2,cy=GH/2,R=Math.min(GW,GH)*.33;
+  g.age+=dt;g.a+=g.dir*g.spd*dt;g.fl=Math.max(0,g.fl-dt*2.2);
+  g.tr.push([cx+Math.cos(g.a)*R,cy+Math.sin(g.a)*R]);if(g.tr.length>16)g.tr.shift();
+  g.pu=g.pu.filter(function(p){p.r+=dt*120;p.l-=dt*2.2;return p.l>0});
+  var ir=lkInR();
+  if(g.inr&&!ir){lkMiss();return}
+  g.inr=ir;
+}
+function lkTap(){
+  if(!lkRun||!LK)return;
+  var g=LK,R=Math.min(GW,GH)*.33;
+  if(lkInR()){
+    g.combo++;g.best=Math.max(g.best,g.combo);g.sc+=10+Math.min(g.combo,10)*2;g.hits++;
+    g.tw=Math.max(.13,g.tw*.94);g.spd=Math.min(4.2,g.spd*1.05);
+    g.pu.push({x:GW/2+Math.cos(g.a)*R,y:GH/2+Math.sin(g.a)*R,r:8,l:1});
+    g.dir*=-1;g.inr=false;g.ta=lkAhead();
+  }else lkMiss();
+}
+function lkDraw(){
+  var g=LK,cx=GW/2,cy=GH/2,R=Math.min(GW,GH)*.33,i;
+  gx.clearRect(0,0,GW,GH);
+  var bg2=gx.createRadialGradient(cx,cy,10,cx,cy,Math.max(GW,GH)*.7);bg2.addColorStop(0,"#17171f");bg2.addColorStop(1,"#0b0b0f");gx.fillStyle=bg2;gx.fillRect(0,0,GW,GH);
+  gx.lineWidth=1;[.55,.8,1.25].forEach(function(f){gx.beginPath();gx.arc(cx,cy,R*f,0,TAU);gx.strokeStyle="rgba(255,255,255,"+(f===1.25?.04:.06)+")";gx.stroke()});
+  gx.beginPath();gx.arc(cx,cy,R,0,TAU);gx.strokeStyle="rgba(255,255,255,.16)";gx.stroke();
+  var cg=gx.createRadialGradient(cx-R*.07,cy-R*.07,2,cx,cy,R*.26);cg.addColorStop(0,"#fff6e0");cg.addColorStop(1,gcol);
+  gx.beginPath();gx.arc(cx,cy,R*.24,0,TAU);gx.fillStyle=cg;gx.shadowColor=gcol;gx.shadowBlur=24;gx.fill();gx.shadowBlur=0;
+  if(!g)return;
+  gx.beginPath();gx.arc(cx,cy,R,g.ta-g.tw,g.ta+g.tw);gx.strokeStyle=gcol;gx.lineWidth=g.inr?16:12;gx.lineCap="round";gx.shadowColor=gcol;gx.shadowBlur=g.inr?26:12;gx.stroke();gx.shadowBlur=0;gx.lineCap="butt";
+  for(i=0;i<g.tr.length;i++){gx.globalAlpha=i/g.tr.length*.5;gx.beginPath();gx.arc(g.tr[i][0],g.tr[i][1],2+i*.35,0,TAU);gx.fillStyle="#f3efe8";gx.fill()}
+  gx.globalAlpha=1;
+  var sx=cx+Math.cos(g.a)*R,sy=cy+Math.sin(g.a)*R;
+  gx.beginPath();gx.arc(sx,sy,9,0,TAU);gx.fillStyle="#fff";gx.shadowColor="#fff";gx.shadowBlur=14;gx.fill();gx.shadowBlur=0;
+  g.pu.forEach(function(p){gx.globalAlpha=Math.max(p.l,0);gx.beginPath();gx.arc(p.x,p.y,p.r,0,TAU);gx.strokeStyle=gcol;gx.lineWidth=2;gx.stroke()});
+  gx.globalAlpha=1;
+  if(g.fl>0){gx.fillStyle="rgba(255,90,70,"+(g.fl*.16)+")";gx.fillRect(0,0,GW,GH)}
+  gx.font="600 15px 'Schibsted Grotesk',system-ui,sans-serif";gx.fillStyle="#f3efe8";gx.textAlign="left";
+  gx.fillText("Skor "+g.sc,14,26);gx.fillText("Combo x"+g.combo,14,46);
+  for(i=0;i<3;i++){gx.beginPath();gx.arc(GW-20-i*20,22,6,0,TAU);if(i<g.lv){gx.fillStyle=gcol;gx.fill()}else{gx.strokeStyle="rgba(243,239,232,.4)";gx.lineWidth=1.5;gx.stroke()}}
+  if(g.age<3&&g.hits===0){gx.textAlign="center";gx.fillStyle="rgba(243,239,232,.55)";gx.font="14px 'Schibsted Grotesk',system-ui,sans-serif";gx.fillText("Ketuk atau tekan Spasi saat satelit di dalam busur",cx,GH-22);gx.textAlign="left"}
+}
+function lkEnd(){
+  lkRun=false;
+  var g=LK,gain=Math.min(60,Math.floor(g.sc/20)),nb=g.sc>PD.m2.b,oc=PD.m2.c,pp=P[(Math.random()*P.length)|0],fact=pp.f[(Math.random()*pp.f.length)|0];
+  PD.m2.n++;if(nb)PD.m2.b=g.sc;PD.m2.c=Math.max(PD.m2.c,g.best);psave();lkDraw();
+  govset('<h3>Orbit terkunci '+g.hits+' kali</h3><p>Skor '+g.sc+(nb?" (rekor baru!)":"")+'. Combo terbaik '+g.best+(g.best>oc?" (rekor baru!)":"")+'. XP: +'+gain+'.</p><p class="note">Tahukah kamu? '+fact+'</p><button class="btn" id="gs">Main lagi</button>');
+  $("gs").onclick=lkStart;
+  if(gain)xp(gain,"Orbit Lock");else badges();
+  gstats();glDraw();
+}
+
+/*AUTH-CORE-START*/
+var AK="nexita-auth",SK="nexita-sess",AT="nexita-att",SESS_DAYS=30;
+function aload(){try{var a=JSON.parse(localStorage.getItem(AK));if(a&&Array.isArray(a.users))return a}catch(e){}return{v:1,users:[]}}
+function asave(a){try{localStorage.setItem(AK,JSON.stringify(a))}catch(e){}}
+function b64(buf){var s="",b=new Uint8Array(buf);for(var i=0;i<b.length;i++)s+=String.fromCharCode(b[i]);return btoa(s)}
+function unb64(t){var s=atob(t),b=new Uint8Array(s.length);for(var i=0;i<s.length;i++)b[i]=s.charCodeAt(i);return b}
+function rnd(n){return crypto.getRandomValues(new Uint8Array(n))}
+async function hpw(pw,salt,it){var k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);return b64(await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:salt,iterations:it||150000},k,256))}
+function rcode(){var al="ABCDEFGHJKMNPQRSTVWXYZ23456789",b=rnd(12),s="";for(var i=0;i<12;i++){s+=al[b[i]%al.length];if(i%4===3&&i<11)s+="-"}return"NX-"+s}
+function normCode(c){var n=String(c).toUpperCase().replace(/[^A-Z0-9]/g,"");if(n.length===12)n="NX"+n;return n}
+function sess(){var r=null;try{r=JSON.parse(sessionStorage.getItem(SK)||localStorage.getItem(SK))}catch(e){}if(r&&Date.now()-r.t>SESS_DAYS*864e5)return null;return r}
+function authUser(){var s=sess();if(!s)return null;return aload().users.filter(function(x){return x.id===s.uid})[0]||null}
+function setSess(uid,remember){try{sessionStorage.removeItem(SK);localStorage.removeItem(SK);(remember?localStorage:sessionStorage).setItem(SK,JSON.stringify({uid:uid,t:Date.now()}))}catch(e){}}
+function clearSess(){try{sessionStorage.removeItem(SK);localStorage.removeItem(SK)}catch(e){}}
+function attGet(){try{return JSON.parse(localStorage.getItem(AT))||{}}catch(e){return{}}}
+function attPut(a){try{localStorage.setItem(AT,JSON.stringify(a))}catch(e){}}
+function attFail(k){var a=attGet(),r=a[k]||{c:0,u:0};if(r.u&&Date.now()>r.u)r={c:0,u:0};r.c++;if(r.c>=5){r.u=Date.now()+30000;r.c=0}a[k]=r;attPut(a)}
+function attLeft(k){var r=attGet()[k];return r&&r.u>Date.now()?Math.ceil((r.u-Date.now())/1000):0}
+function attOk(k){var a=attGet();delete a[k];attPut(a)}
+function okEmail(e){return/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)}
+function pwErr(p){if(p.length<8)return"Kata sandi minimal 8 karakter.";if(!/[A-Za-z]/.test(p)||!/\d/.test(p))return"Gunakan kombinasi huruf dan angka.";return""}
+function pwScore(p){if(!p)return 0;var n=(p.length>=8?1:0)+(p.length>=12?1:0)+(/[a-z]/.test(p)&&/[A-Z]/.test(p)?1:0)+(/\d/.test(p)?1:0)+(/[^A-Za-z0-9]/.test(p)?1:0);return n<=1?1:n===2?2:n===3?3:4}
+async function aSignup(name,email,pw,remember){
+  email=email.trim().toLowerCase();var a=aload();
+  if(a.users.some(function(u){return u.email===email}))throw new Error("Email sudah terdaftar. Silakan masuk.");
+  var salt=rnd(16),rs=rnd(16),rc=rcode(),id="a"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
+  var u={id:id,email:email,name:name.trim().slice(0,20),salt:b64(salt),hash:await hpw(pw,salt),rsalt:b64(rs),rhash:await hpw(normCode(rc),rs,100000),created:Date.now()};
+  a=aload();a.users.push(u);asave(a);
+  var wasGuest=PF.a==="guest",g=JSON.parse(JSON.stringify(PD));
+  PF.l.push({id:id,n:u.name,c:COLS[PF.l.length%COLS.length],auth:1});PF.a=id;pload();
+  if(wasGuest&&(g.l.length||g.q.n||g.g.t||g.k.n||g.x))PD=g;
+  done=PD.l;psave();setSess(id,remember);av();lprog();lshow();
+  return{user:u,code:rc};
+}
+async function aSignin(email,pw,remember){
+  email=email.trim().toLowerCase();var w=attLeft(email);
+  if(w)throw new Error("Terlalu banyak percobaan. Coba lagi dalam "+w+" detik.");
+  var u=aload().users.filter(function(x){return x.email===email})[0],ok=false;
+  if(u)ok=(await hpw(pw,unb64(u.salt)))===u.hash;else await hpw(pw,rnd(16));
+  if(!ok){attFail(email);throw new Error("Email atau kata sandi salah.")}
+  attOk(email);setSess(u.id,remember);
+  if(!PF.l.some(function(x){return x.id===u.id}))PF.l.push({id:u.id,n:u.name,c:COLS[PF.l.length%COLS.length],auth:1});
+  pswitch(u.id);return u;
+}
+async function aReset(email,code,pw){
+  email=email.trim().toLowerCase();var k="r:"+email,w=attLeft(k);
+  if(w)throw new Error("Terlalu banyak percobaan. Coba lagi dalam "+w+" detik.");
+  var a=aload(),u=a.users.filter(function(x){return x.email===email})[0],ok=false;
+  if(u)ok=(await hpw(normCode(code),unb64(u.rsalt),100000))===u.rhash;else await hpw(String(code),rnd(16),100000);
+  if(!ok){attFail(k);throw new Error("Email atau kode pemulihan tidak cocok.")}
+  attOk(k);var salt=rnd(16),rs=rnd(16),rc=rcode();
+  u.salt=b64(salt);u.hash=await hpw(pw,salt);u.rsalt=b64(rs);u.rhash=await hpw(normCode(rc),rs,100000);asave(a);
+  return rc;
+}
+async function aChangePw(oldp,newp){
+  var a=aload(),s=sess(),u=a.users.filter(function(x){return s&&x.id===s.uid})[0];
+  if(!u)throw new Error("Kamu belum masuk.");
+  if((await hpw(oldp,unb64(u.salt)))!==u.hash)throw new Error("Kata sandi lama salah.");
+  var salt=rnd(16);u.salt=b64(salt);u.hash=await hpw(newp,salt);asave(a);
+}
+function aRename(nm){
+  var a=aload(),s=sess(),u=a.users.filter(function(x){return s&&x.id===s.uid})[0];if(!u)return;
+  u.name=nm.trim().slice(0,20);asave(a);
+  PF.l.forEach(function(x){if(x.id===u.id)x.n=u.name});psave();av();
+}
+async function aDelete(pw){
+  var a=aload(),s=sess(),u=a.users.filter(function(x){return s&&x.id===s.uid})[0];
+  if(!u)throw new Error("Kamu belum masuk.");
+  if((await hpw(pw,unb64(u.salt)))!==u.hash)throw new Error("Kata sandi salah.");
+  a.users=a.users.filter(function(x){return x.id!==u.id});asave(a);
+  PF.l=PF.l.filter(function(x){return x.id!==u.id});try{localStorage.removeItem("sinyal-d-"+u.id)}catch(e){}
+  clearSess();pswitch("guest");
+}
+function aSignout(){clearSess();pswitch("guest")}
+/*AUTH-CORE-END*/
+
+/* akun: antarmuka */
+var amMode="masuk",amOpts={},amPrev=null,amInert=[],amBusy=false;
+function fld(id,label,type,ac,ph,val){return`<label class="fl"><span>${label}</span><input id="${id}" type="${type}" autocomplete="${ac}" placeholder="${ph||""}" value="${esc(val||"")}"></label>`}
+function pwf(id,label,ac){return`<label class="fl"><span>${label}</span><div class="pw"><input id="${id}" type="password" autocomplete="${ac}"><button type="button" class="pwt" data-t="${id}" aria-label="Tampilkan kata sandi">Lihat</button></div></label>`}
+function amTabs(m){return`<div class="sub amtabs"><button type="button" data-m="masuk" aria-selected="${m==="masuk"}">Masuk</button><button type="button" data-m="daftar" aria-selected="${m==="daftar"}">Daftar</button></div>`}
+function strengthHtml(){return'<div class="pwm"><i id="pwi"></i></div><div class="pwl" id="pwl"></div>'}
+function amRender(){
+  var m=amMode,o=amOpts,h="",T={masuk:"Masuk ke NEXITA",daftar:"Buat akun NEXITA",lupa:"Atur ulang kata sandi",kode:"Simpan kode pemulihan",ubah:"Ubah nama",sandi:"Ubah kata sandi",hapus:"Hapus akun"},cu=authUser();
+  if(m==="masuk")h=amTabs(m)+'<form id="amf" novalidate>'+fld("ae","Email","email","email","nama@email.com",o.email)+pwf("ap","Kata sandi","current-password")+'<div class="frow"><label class="ckb"><input type="checkbox" id="ar" checked> Ingat saya</label><button type="button" class="lk" data-m="lupa">Lupa kata sandi?</button></div><p class="fe" id="aerr" role="alert"></p><button class="btn wide" type="submit" id="asb">Masuk</button><button class="ghost wide" type="button" id="agst">Lanjut sebagai tamu</button></form>';
+  else if(m==="daftar")h=amTabs(m)+'<form id="amf" novalidate>'+fld("an","Nama panggilan","text","nickname","Maks. 20 karakter")+fld("ae","Email","email","email","nama@email.com")+pwf("ap","Kata sandi","new-password")+strengthHtml()+pwf("ap2","Ulangi kata sandi","new-password")+'<label class="ckb"><input type="checkbox" id="ar" checked> Ingat saya di perangkat ini</label><label class="ckb"><input type="checkbox" id="ag"> Saya paham akun ini tersimpan di perangkat ini dan kode pemulihan hanya ditampilkan sekali.</label><p class="fe" id="aerr" role="alert"></p><button class="btn wide" type="submit" id="asb">Buat akun</button></form>';
+  else if(m==="lupa")h='<form id="amf" novalidate><p class="note" style="margin:0 0 1rem">Masukkan email dan kode pemulihan yang kamu simpan saat mendaftar. Tidak ada email yang dikirim karena akun tersimpan di perangkat ini.</p>'+fld("ae","Email","email","email","nama@email.com",o.email)+fld("ak","Kode pemulihan","text","off","NX-XXXX-XXXX-XXXX")+pwf("ap","Kata sandi baru","new-password")+strengthHtml()+pwf("ap2","Ulangi kata sandi baru","new-password")+'<p class="fe" id="aerr" role="alert"></p><button class="btn wide" type="submit" id="asb">Atur ulang</button><button class="ghost wide" type="button" data-m="masuk">Kembali ke Masuk</button></form>';
+  else if(m==="kode")h='<p class="note" style="margin:0">'+(o.kind==="reset"?"Kata sandi diperbarui. Kode lama tidak berlaku lagi, simpan kode baru ini.":"Akun berhasil dibuat.")+' Simpan kode ini di tempat aman. Kode dipakai jika kamu lupa kata sandi dan hanya ditampilkan sekali.</p><div class="rcode" id="rcd">'+esc(o.code||"")+'</div><button class="ghost wide" type="button" id="acp">Salin kode</button><label class="ckb" style="margin-top:.8rem"><input type="checkbox" id="ack"> Saya sudah menyimpan kode ini</label><button class="btn wide" type="button" id="aok" disabled>Lanjut</button>';
+  else if(m==="ubah")h='<form id="amf" novalidate>'+fld("an","Nama panggilan","text","nickname","",cu?cu.name:"")+'<p class="fe" id="aerr" role="alert"></p><button class="btn wide" type="submit" id="asb">Simpan</button></form>';
+  else if(m==="sandi")h='<form id="amf" novalidate>'+pwf("ao","Kata sandi lama","current-password")+pwf("ap","Kata sandi baru","new-password")+strengthHtml()+pwf("ap2","Ulangi kata sandi baru","new-password")+'<p class="fe" id="aerr" role="alert"></p><button class="btn wide" type="submit" id="asb">Perbarui kata sandi</button></form>';
+  else if(m==="hapus")h='<form id="amf" novalidate><p class="note" style="margin:0 0 1rem">Akun, kata sandi, dan seluruh progres akun ini akan dihapus dari perangkat ini dan tidak bisa dikembalikan. Masukkan kata sandi untuk melanjutkan.</p>'+pwf("ap","Kata sandi","current-password")+'<p class="fe" id="aerr" role="alert"></p><button class="btn wide" type="submit" id="asb">Hapus akun permanen</button></form>';
+  $("amc").innerHTML='<div class="amh"><div class="amt" id="amt">'+T[m]+'</div><button class="amx" id="amx" type="button" aria-label="Tutup">×</button></div>'+h;
+}
+function authOpen(mode,o){
+  if(!(window.crypto&&crypto.subtle)){toast("Browser ini tidak mendukung penyimpanan akun yang aman. Buka lewat https.");return}
+  amMode=mode;amOpts=o||{};amPrev=document.activeElement;amRender();
+  var am=$("am");am.hidden=false;
+  amInert=[];[].forEach.call(document.querySelectorAll("header,main,.pick,.hint,.zc,#ws"),function(e){if(!e.inert){e.inert=true;amInert.push(e)}});
+  requestAnimationFrame(function(){am.classList.add("open");var f=$("amc").querySelector("input:not([type=checkbox]),button.btn");if(f)f.focus()});
+}
+function authClose(){
+  var am=$("am");am.classList.remove("open");
+  amInert.forEach(function(e){e.inert=false});amInert=[];
+  setTimeout(function(){am.hidden=true},300);
+  if(amPrev&&amPrev.focus&&document.contains(amPrev))amPrev.focus();
+}
+function sgnUI(){var u=authUser();if($("sgn"))$("sgn").hidden=!!u;if($("mps"))$("mps").hidden=!!u}
+function afterAuth(){sgnUI();wAuthUI();if(cp==="profil")prof()}
+function authAct(a){
+  if(a==="rename")authOpen("ubah");else if(a==="pw")authOpen("sandi");else if(a==="hapus")authOpen("hapus");
+  else if(a==="masuk")authOpen("masuk");else if(a==="daftar")authOpen("daftar");
+  else if(a==="out"){aSignout();toast("Kamu sudah keluar.");afterAuth()}
+}
+function acctCard(){
+  var u=authUser();
+  if(!u)return'<div class="card"><div><h3>Akun NEXITA</h3><p class="note" style="margin:0 0 1rem">Masuk atau daftar agar progres terikat ke akunmu di perangkat ini. Akun memakai email dan kata sandi, dengan kode pemulihan jika lupa.</p><div class="nv" style="margin-top:0"><button class="btn" data-act="masuk">Masuk</button><button class="ghost" data-act="daftar">Daftar</button></div></div></div>';
+  return'<div class="card"><div><h3>Akun NEXITA</h3><ul class="kv"><li><span>Nama</span><b>'+esc(u.name)+'</b></li><li><span>Email</span><b>'+esc(u.email)+'</b></li><li><span>Dibuat</span><b>'+new Date(u.created).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})+'</b></li></ul><div class="nv"><button class="ghost" data-act="rename">Ubah nama</button><button class="ghost" data-act="pw">Ubah kata sandi</button><button class="ghost" data-act="out">Keluar</button><button class="ghost" data-act="hapus">Hapus akun</button></div><p class="note">Akun tersimpan di perangkat ini (kata sandi di-hash), bukan di server.</p></div></div>';
+}
+async function amSubmit(){
+  if(amBusy)return;
+  var m=amMode,err=$("aerr"),btn=$("asb"),label=btn?btn.textContent:"",v=function(id){return $(id)?$(id).value:""};
+  err.textContent="";
+  function bad(t){err.textContent=t}
+  function pwCheck(){var e=pwErr(v("ap"));if(e){bad(e);return false}if(v("ap")!==v("ap2")){bad("Kata sandi tidak sama.");return false}return true}
+  try{
+    if(m==="masuk"){
+      if(!okEmail(v("ae").trim()))return bad("Masukkan email yang valid.");
+      if(!v("ap"))return bad("Masukkan kata sandi.");
+      amBusy=true;btn.disabled=true;btn.textContent="Memproses...";
+      var u=await aSignin(v("ae"),v("ap"),$("ar").checked);
+      amBusy=false;authClose();toast("Selamat datang kembali, "+u.name);afterAuth();
+    }else if(m==="daftar"){
+      if(v("an").trim().length<2)return bad("Nama minimal 2 karakter.");
+      if(!okEmail(v("ae").trim()))return bad("Masukkan email yang valid.");
+      if(!pwCheck())return;
+      if(!$("ag").checked)return bad("Centang persetujuan untuk melanjutkan.");
+      amBusy=true;btn.disabled=true;btn.textContent="Membuat akun...";
+      var r=await aSignup(v("an"),v("ae"),v("ap"),$("ar").checked);
+      amBusy=false;amMode="kode";amOpts={code:r.code,kind:"daftar"};amRender();afterAuth();toast("Akun dibuat. Selamat datang, "+r.user.name);
+    }else if(m==="lupa"){
+      if(!okEmail(v("ae").trim()))return bad("Masukkan email yang valid.");
+      if(normCode(v("ak")).length!==14)return bad("Kode pemulihan tidak lengkap.");
+      if(!pwCheck())return;
+      amBusy=true;btn.disabled=true;btn.textContent="Memproses...";
+      var nc=await aReset(v("ae"),v("ak"),v("ap"));
+      amBusy=false;amMode="kode";amOpts={code:nc,kind:"reset"};amRender();
+    }else if(m==="ubah"){
+      if(v("an").trim().length<2)return bad("Nama minimal 2 karakter.");
+      aRename(v("an"));authClose();toast("Nama diperbarui.");afterAuth();
+    }else if(m==="sandi"){
+      if(!v("ao"))return bad("Masukkan kata sandi lama.");
+      if(!pwCheck())return;
+      amBusy=true;btn.disabled=true;btn.textContent="Memproses...";
+      await aChangePw(v("ao"),v("ap"));
+      amBusy=false;authClose();toast("Kata sandi diperbarui.");
+    }else if(m==="hapus"){
+      if(!v("ap"))return bad("Masukkan kata sandi.");
+      amBusy=true;btn.disabled=true;btn.textContent="Menghapus...";
+      await aDelete(v("ap"));
+      amBusy=false;authClose();toast("Akun dihapus.");afterAuth();
+    }
+  }catch(e){
+    amBusy=false;if(btn){btn.disabled=false;btn.textContent=label}bad(e&&e.message?e.message:"Terjadi kesalahan.");
+  }
+}
+$("am").addEventListener("click",function(e){
+  var t=e.target;
+  if(t.classList.contains("amb")||t.closest("#amx")){authClose();return}
+  var b=t.closest("[data-m]");if(b){amMode=b.dataset.m;amOpts={};amRender();var f=$("amc").querySelector("input:not([type=checkbox])");if(f)f.focus();return}
+  var pt=t.closest(".pwt");if(pt){var i=$(pt.dataset.t),sh=i.type==="password";i.type=sh?"text":"password";pt.textContent=sh?"Sembunyi":"Lihat";return}
+  if(t.id==="agst"){authClose();return}
+  if(t.id==="acp"){var c=$("rcd").textContent,ok=function(){toast("Kode disalin.")},no=function(){toast("Salin kode secara manual dari kotak di atas.")};try{navigator.clipboard.writeText(c).then(ok,no)}catch(x){no()}return}
+  if(t.id==="aok"){authClose();afterAuth()}
+});
+$("am").addEventListener("submit",function(e){e.preventDefault();amSubmit()});
+$("am").addEventListener("input",function(e){
+  if(e.target.id==="ap"&&$("pwi")){var sc=pwScore(e.target.value),L=["","Lemah","Cukup","Baik","Kuat"],C=["","#ff7a6b","#ffb454","#b9d96b","#7bd88f"];$("pwi").style.width=sc*25+"%";$("pwi").style.background=C[sc];$("pwl").textContent=sc?"Kekuatan: "+L[sc]:""}
+});
+$("am").addEventListener("change",function(e){if(e.target.id==="ack")$("aok").disabled=!e.target.checked});
+$("am").addEventListener("keydown",function(e){
+  if(e.key==="Escape"){authClose();return}
+  if(e.key!=="Tab")return;
+  var f=[].filter.call($("amc").querySelectorAll("button,input"),function(x){return!x.disabled&&x.offsetParent});if(!f.length)return;
+  var a=f[0],z=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}
+});
+$("sgn").onclick=function(){authOpen("masuk")};
+if($("wsg"))$("wsg").onclick=function(){var u=authUser();if(u){wfin();location.hash="#profil"}else authOpen("masuk")};
+if(pact().auth&&!authUser()){PF.a="guest";pload();done=PD.l;psave();av();lprog();lshow()}
+sgnUI();
+
 /* router */
-var cp="",pages=document.querySelectorAll("[data-page]"),TT={beranda:"NEXITA: Jelajah Tata Surya",orbit:"Orbit | NEXITA",misi:"Misi | NEXITA",kuis:"Kuis | NEXITA",belajar:"Belajar | NEXITA",bahasa:"Bahasa | NEXITA",komando:"Komando | NEXITA",tentang:"Tentang | NEXITA",profil:"Profil | NEXITA",game:"Sinyal Runner | NEXITA",banding:"Banding | NEXITA",peringkat:"Peringkat | NEXITA",lab:"Lab | NEXITA"};
+var cp="",pages=document.querySelectorAll("[data-page]"),TT={beranda:"NEXITA: Jelajah Tata Surya",orbit:"Orbit | NEXITA",misi:"Misi | NEXITA",kuis:"Kuis | NEXITA",belajar:"Belajar | NEXITA",bahasa:"Bahasa | NEXITA",komando:"Komando | NEXITA",tentang:"Tentang | NEXITA",profil:"Profil | NEXITA",game:"Game | NEXITA",banding:"Banding | NEXITA",peringkat:"Peringkat | NEXITA",lab:"Lab | NEXITA"};
 function route(){
   var h=location.hash.slice(1);if(!TT[h])h="beranda";var pv=cp;cp=h;document.body.dataset.p=h;document.title=TT[h];
   [].forEach.call(pages,function(m){m.hidden=m.dataset.page!==h});
   [].forEach.call(document.querySelectorAll(".nav a[data-p]"),function(a){a.setAttribute("aria-current",a.dataset.p===h?"page":"false")});
   scrollTo(0,0);
-  trans(pv,h);
   navInd();
   if(h==="profil")prof();
-  if(h==="game")gready();else grun=false;
+  if(h==="game")gready();else{grun=false;lkRun=false}
   if(h==="banding")cmpShow();
   if(h==="peringkat")lbDraw();
   if(h==="lab")labShow();
   navClose();
   if(h==="orbit"){osize();run=true;last=performance.now();requestAnimationFrame(oloop)}else run=false;
+  trans(pv,h);
 }
 addEventListener("hashchange",route);
-addEventListener("resize",function(){if(cp==="orbit")osize();if(cp==="game"&&!grun)gready()});
+addEventListener("resize",function(){if(cp==="orbit")osize();if(cp==="game"&&!grun&&!lkRun)gready()});
 route();
 
 apply();
